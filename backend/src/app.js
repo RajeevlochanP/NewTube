@@ -1,5 +1,6 @@
 import express from "express";
 import session from 'express-session';
+import uploadRouter from "./routes/upload.js";
 const app = express();
 const port = 3000;
 
@@ -17,6 +18,9 @@ app.use(session({
 
 // Static files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+//sending to corresponding router
+app.use("/upload",uploadRouter);
 
 
 app.listen(port, () => {

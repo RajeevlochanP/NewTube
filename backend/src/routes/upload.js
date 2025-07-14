@@ -7,3 +7,4 @@ const router=express.Router();
 router.post("/video",authMiddleWare,upload.single("video"),handleUpload);
 //in future
 //router.post("/profile")
+export default router;
