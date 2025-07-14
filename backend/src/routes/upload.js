@@ -1,9 +1,11 @@
 import express from "express";
-import multer from "multer";
-import { handleUpload } from "../controllers/upload.controller";
+import { upload } from "../middlewares/upload.js"
+import { handleUpload } from "../controllers/upload.controller.js";
+import { checkToken, requireUser } from "../middlewares/protect.js";
 
-const router=express.Router();
+const router = express.Router();
 
-router.post("/video",authMiddleWare,upload.single("video"),handleUpload);
+router.post("/video", checkToken, requireUser, upload.single("video"), handleUpload);
 //in future
 //router.post("/profile")
+export default router;

@@ -1,5 +1,5 @@
 import path from "path";
-import { addVideoDao } from "../daos/video.dao";
+import { addVideoDao } from "../daos/video.dao.js";
 
 export const handleUploadService = async (storedFileName, uniqueFolderPath, file, title,description,userId) => {
     const inputPath = path.join(uniqueFolderPath, storedFileName);

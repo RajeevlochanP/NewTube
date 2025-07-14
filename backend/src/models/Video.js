@@ -13,7 +13,7 @@ const videoSchema = new mongoose.Schema({
 
   // link to user
   uploadedBy: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
     index: true, // for O(logn) search time for a specific user
