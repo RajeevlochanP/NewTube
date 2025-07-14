@@ -1,4 +1,4 @@
-import { handleUploadService } from "../services/upload.service";
+import { handleUploadService } from "../services/upload.service.js";
 
 export const handleUpload = async (req, res) => {
     try {
@@ -10,7 +10,7 @@ export const handleUpload = async (req, res) => {
         if (!storedFileName || !uniqueFolderPath || !file) {
             throw new Error("storedFileName or uniqueFolderPath or file is not coming from req");
         }
-        const newVideo = await handleUploadService(storedFileName,uniqueFolderPath,file,title,description,req.session.user._id);
+        const newVideo = await handleUploadService(storedFileName,uniqueFolderPath,file,title,description,req.user._id);
         
 
         return res.status(201).json({

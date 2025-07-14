@@ -1,4 +1,4 @@
-import Video from "../models/Video";
+import Video from "../models/Video.js";
 
 export const addVideoDao = async (file, title, description, outputM3U8, uniqueFolderPath, userId) => {
     const newVideo = new Video({
