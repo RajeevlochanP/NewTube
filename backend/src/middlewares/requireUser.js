@@ -1,0 +1,1 @@
+// this middleware checks whether user logged in or not also serializing all user details in  req.session.user
