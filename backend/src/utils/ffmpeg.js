@@ -8,7 +8,7 @@ export const segmentToHLS = (inputPath, outputFolder) => {
 
     fs.mkdirSync(outputFolder, { recursive: true });
 
-    const cmd = `ffmpeg -i "${inputPath}" -profile:v baseline -level 3.0 -start_number 0 -hls_time 6 -hls_list_size 0 -f hls "${outputM3U8}"`; //for 6 sec segments
+    const cmd = `ffmpeg -i "${inputPath}" -profile:v baseline -level 3.0 -start_number 0 -hls_time 6 -hls_list_size 0 -f hls "${outputM3U8}"`;
 
     exec(cmd, (error, stdout, stderr) => {
       if (error) {
