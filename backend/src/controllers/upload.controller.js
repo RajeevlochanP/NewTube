@@ -16,7 +16,7 @@ export const handleUpload = async (req, res) => {
         return res.status(201).json({
             success: true,
             message: "Video uploaded and processed successfully.",
-            m3u8Url: `${uniqueFolderPath}/output.m3u8`,
+            m3u8Url: newVideo.m3u8Path,
             videoId: newVideo._id,
         });
 
