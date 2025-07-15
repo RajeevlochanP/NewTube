@@ -89,6 +89,7 @@
   margin: 0 auto;
   display: flex;
   padding: 0 24px;
+  gap: 8px;
 }
 
 .tab {
@@ -150,6 +151,41 @@
   min-width: 24px;
   text-align: center;
   box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+/* Upload Section */
+.uploadSection {
+  max-width: 1200px;
+  margin: 0 auto 32px auto;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 24px;
+}
+
+.uploadButton {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+}
+
+.uploadButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+}
+
+.uploadIcon {
+  width: 20px;
+  height: 20px;
 }
 
 /* Content Section */
@@ -236,6 +272,35 @@
   font-size: 12px;
   font-weight: 600;
   backdrop-filter: blur(10px);
+}
+
+/* Status Badge */
+.statusBadge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(10px);
+}
+
+.published {
+  background: rgba(34, 197, 94, 0.9);
+  color: white;
+}
+
+.processing {
+  background: rgba(251, 191, 36, 0.9);
+  color: white;
+}
+
+.draft {
+  background: rgba(107, 114, 128, 0.9);
+  color: white;
 }
 
 .overlay {
@@ -435,6 +500,16 @@
   .videoInfo {
     padding: 16px;
   }
+
+  .uploadSection {
+    padding: 0 16px;
+    justify-content: center;
+  }
+
+  .uploadButton {
+    padding: 12px 24px;
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -468,10 +543,21 @@
   .sectionTitle {
     font-size: 1.75rem;
   }
+
+  .uploadButton {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .uploadIcon {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 /* Focus and accessibility */
 .tab:focus,
+.uploadButton:focus,
 .playButton:focus,
 .actionButton:focus {
   outline: 2px solid #667eea;
