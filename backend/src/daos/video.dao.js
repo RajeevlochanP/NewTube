@@ -16,3 +16,7 @@ export const addVideoDao = async (file, title, description, outputM3U8, uniqueFo
 
     return await newVideo.save();
 }
+
+export const getVideoById = async (videoId) => {
+    return await Video.findById(videoId).lean();
+}
