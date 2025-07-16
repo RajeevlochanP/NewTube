@@ -3,10 +3,10 @@ import { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import styles from '../styles/Home.module.css';
-import Header from '../components/Header';
-import VideoCard from '../components/VideoCard';
 
 const Home = () => {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     AOS.init({
@@ -16,6 +16,19 @@ const Home = () => {
       offset: 100,
     });
   }, []);
+
+  const handleSignIn = () => {
+    setIsSignedIn(true);
+  };
+
+  const handleSignOut = () => {
+    setIsSignedIn(false);
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    console.log('Searching for:', searchQuery);
+  };
 
   // Mock video data
   const videos = [
@@ -87,12 +100,78 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-      <Header />
+      {/* Header */}
+      <header className={styles.header} data-aos="fade-down">
+        <div className={styles.headerLeft}>
+          <div className={styles.logo}>
+            <span className={styles.logoText}>YouTube</span>
+          </div>
+        </div>
+
+        <div className={styles.headerCenter}>
+          <form onSubmit={handleSearch} className={styles.searchForm}>
+            <input
+              type="text"
+              placeholder="Search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className={styles.searchInput}
+            />
+            <button type="submit" className={styles.searchButton}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          </form>
+        </div>
+
+        <div className={styles.headerRight}>
+          <nav className={styles.navigation}>
+            <a href="#" className={styles.navLink}>Home</a>
+            <a href="#" className={styles.navLink}>Library</a>
+            {isSignedIn ? (
+              <>
+                <a href="#" className={styles.navLink}>Profile</a>
+                <button onClick={handleSignOut} className={styles.signOutButton}>
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <button onClick={handleSignIn} className={styles.signInButton}>
+                Sign In
+              </button>
+            )}
+          </nav>
+        </div>
+      </header>
+
       {/* Main Content */}
       <main className={styles.main} data-aos="fade-up" data-aos-delay="200">
         <div className={styles.videoGrid}>
           {videos.map((video, index) => (
-            <VideoCard key={video.id} video={video} index={index}/>
+            <div 
+              key={video.id} 
+              className={styles.videoCard}
+              data-aos="zoom-in"
+              data-aos-delay={300 + (index * 100)}
+            >
+              <div className={styles.thumbnailContainer}>
+                <img 
+                  src={video.thumbnail} 
+                  alt={video.title}
+                  className={styles.thumbnail}
+                />
+              </div>
+              <div className={styles.videoInfo}>
+                <h3 className={styles.videoTitle}>{video.title}</h3>
+                <p className={styles.channelName}>{video.channel}</p>
+                <div className={styles.videoMeta}>
+                  <span>{video.views}</span>
+                  <span className={styles.separator}>•</span>
+                  <span>{video.timestamp}</span>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       </main>

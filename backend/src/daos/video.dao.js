@@ -11,6 +11,7 @@ export const addVideoDao = async (file, title, description, outputM3U8, uniqueFo
         m3u8Path: outputM3U8,
         folderPath: uniqueFolderPath,
         uploadedBy: userId,
+        likesCount: 0,
     });
 
     return await newVideo.save();

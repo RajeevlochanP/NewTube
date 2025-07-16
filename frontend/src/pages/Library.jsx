@@ -4,7 +4,7 @@ import 'aos/dist/aos.css';
 import styles from '../styles/Library.module.css';
 
 const Library = () => {
-  const [activeTab, setActiveTab] = useState('myVideos');
+  const [activeTab, setActiveTab] = useState('liked');
 
   useEffect(() => {
     AOS.init({
@@ -14,60 +14,6 @@ const Library = () => {
       offset: 100,
     });
   }, []);
-
-  // Mock data for user's uploaded videos
-  const myVideos = [
-    {
-      id: 1,
-      title: "My First React Tutorial - Getting Started",
-      channel: "My Channel",
-      views: "1.2K views",
-      timestamp: "2 days ago",
-      duration: "15:30",
-      thumbnail: "https://images.pexels.com/photos/11035380/pexels-photo-11035380.jpeg?auto=compress&cs=tinysrgb&w=400&h=225&fit=crop",
-      status: "Published"
-    },
-    {
-      id: 2,
-      title: "JavaScript Tips and Tricks for Beginners",
-      channel: "My Channel",
-      views: "856 views",
-      timestamp: "5 days ago",
-      duration: "22:45",
-      thumbnail: "https://images.pexels.com/photos/11035471/pexels-photo-11035471.jpeg?auto=compress&cs=tinysrgb&w=400&h=225&fit=crop",
-      status: "Published"
-    },
-    {
-      id: 3,
-      title: "CSS Grid Layout Complete Guide",
-      channel: "My Channel",
-      views: "445 views",
-      timestamp: "1 week ago",
-      duration: "18:20",
-      thumbnail: "https://images.pexels.com/photos/11035540/pexels-photo-11035540.jpeg?auto=compress&cs=tinysrgb&w=400&h=225&fit=crop",
-      status: "Published"
-    },
-    {
-      id: 4,
-      title: "Building a REST API with Node.js",
-      channel: "My Channel",
-      views: "723 views",
-      timestamp: "1 week ago",
-      duration: "35:15",
-      thumbnail: "https://images.pexels.com/photos/574077/pexels-photo-574077.jpeg?auto=compress&cs=tinysrgb&w=400&h=225&fit=crop",
-      status: "Processing"
-    },
-    {
-      id: 5,
-      title: "Web Design Trends 2025 - What's New",
-      channel: "My Channel",
-      views: "312 views",
-      timestamp: "2 weeks ago",
-      duration: "28:40",
-      thumbnail: "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=400&h=225&fit=crop",
-      status: "Draft"
-    }
-  ];
 
   // Mock data for liked videos
   const likedVideos = [
@@ -176,26 +122,7 @@ const Library = () => {
     }
   ];
 
-  const getCurrentVideos = () => {
-    switch (activeTab) {
-      case 'myVideos':
-        return myVideos;
-      case 'liked':
-        return likedVideos;
-      case 'watchLater':
-        return watchLaterVideos;
-      default:
-        return myVideos;
-    }
-  };
-
-  const currentVideos = getCurrentVideos();
-
-  const handleUpload = () => {
-    // Placeholder for upload functionality
-    console.log('Upload video clicked');
-    alert('Upload functionality will be implemented later!');
-  };
+  const currentVideos = activeTab === 'liked' ? likedVideos : watchLaterVideos;
 
   return (
     <div className={styles.container}>
@@ -213,17 +140,6 @@ const Library = () => {
       {/* Tab Navigation */}
       <div className={styles.tabContainer} data-aos="fade-up" data-aos-delay="200">
         <div className={styles.tabWrapper}>
-          <button
-            className={`${styles.tab} ${activeTab === 'myVideos' ? styles.activeTab : ''}`}
-            onClick={() => setActiveTab('myVideos')}
-          >
-            <svg className={styles.tabIcon} viewBox="0 0 24 24" fill="none">
-              <path d="M23 7l-7 5 7 5V7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <rect x="1" y="5" width="15" height="14" rx="2" ry="2" stroke="currentColor" strokeWidth="2"/>
-            </svg>
-            My Videos
-            <span className={styles.tabCount}>{myVideos.length}</span>
-          </button>
           <button
             className={`${styles.tab} ${activeTab === 'liked' ? styles.activeTab : ''}`}
             onClick={() => setActiveTab('liked')}
@@ -250,29 +166,12 @@ const Library = () => {
 
       {/* Content Section */}
       <div className={styles.content}>
-        {/* Upload Button - Only show in My Videos tab */}
-        {activeTab === 'myVideos' && (
-          <div className={styles.uploadSection} data-aos="fade-right" data-aos-delay="250">
-            <button onClick={handleUpload} className={styles.uploadButton}>
-              <svg className={styles.uploadIcon} viewBox="0 0 24 24" fill="none">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <polyline points="7,10 12,5 17,10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <line x1="12" y1="5" x2="12" y2="15" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-              Upload Video
-            </button>
-          </div>
-        )}
-
         <div className={styles.sectionHeader} data-aos="fade-right" data-aos-delay="300">
           <h2 className={styles.sectionTitle}>
-            {activeTab === 'myVideos' ? 'Your Uploaded Videos' : 
-             activeTab === 'liked' ? 'Videos You Liked' : 'Watch Later Queue'}
+            {activeTab === 'liked' ? 'Videos You Liked' : 'Watch Later Queue'}
           </h2>
           <p className={styles.sectionSubtitle}>
-            {activeTab === 'myVideos' 
-              ? 'Manage and track your uploaded content'
-              : activeTab === 'liked' 
+            {activeTab === 'liked' 
               ? 'Your favorite videos all in one place' 
               : 'Videos saved for later viewing'}
           </p>
@@ -294,12 +193,6 @@ const Library = () => {
                   className={styles.thumbnail}
                 />
                 <div className={styles.duration}>{video.duration}</div>
-                {/* Status badge for My Videos */}
-                {activeTab === 'myVideos' && (
-                  <div className={`${styles.statusBadge} ${styles[video.status.toLowerCase()]}`}>
-                    {video.status}
-                  </div>
-                )}
                 <div className={styles.overlay}>
                   <button className={styles.playButton}>
                     <svg viewBox="0 0 24 24" fill="currentColor">
@@ -308,18 +201,10 @@ const Library = () => {
                   </button>
                 </div>
                 <div className={styles.actionButtons}>
-                  <button className={styles.actionButton} title={activeTab === 'myVideos' ? 'Edit video' : 'Remove from library'}>
+                  <button className={styles.actionButton} title="Remove from library">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      {activeTab === 'myVideos' ? (
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                      ) : (
-                        <polyline points="3,6 5,6 21,6"/>
-                      )}
-                      {activeTab === 'myVideos' ? (
-                        <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                      ) : (
-                        <path d="m19,6v14a2,2 0 0,1-2,2H7a2,2 0 0,1-2-2V6m3,0V4a2,2 0 0,1,2-2h4a2,2 0 0,1,2,2v2"/>
-                      )}
+                      <polyline points="3,6 5,6 21,6"/>
+                      <path d="m19,6v14a2,2 0 0,1-2,2H7a2,2 0 0,1-2-2V6m3,0V4a2,2 0 0,1,2-2h4a2,2 0 0,1,2,2v2"/>
                     </svg>
                   </button>
                   <button className={styles.actionButton} title="Share">
@@ -348,12 +233,7 @@ const Library = () => {
         {currentVideos.length === 0 && (
           <div className={styles.emptyState} data-aos="fade-up" data-aos-delay="400">
             <div className={styles.emptyIcon}>
-              {activeTab === 'myVideos' ? (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M23 7l-7 5 7 5V7z"/>
-                  <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-                </svg>
-              ) : activeTab === 'liked' ? (
+              {activeTab === 'liked' ? (
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                 </svg>
@@ -365,13 +245,10 @@ const Library = () => {
               )}
             </div>
             <h3 className={styles.emptyTitle}>
-              {activeTab === 'myVideos' ? 'No uploaded videos yet' :
-               activeTab === 'liked' ? 'No liked videos yet' : 'No videos in watch later'}
+              {activeTab === 'liked' ? 'No liked videos yet' : 'No videos in watch later'}
             </h3>
             <p className={styles.emptyDescription}>
-              {activeTab === 'myVideos' 
-                ? 'Start creating content by uploading your first video'
-                : activeTab === 'liked' 
+              {activeTab === 'liked' 
                 ? 'Videos you like will appear here' 
                 : 'Videos you save for later will appear here'}
             </p>
