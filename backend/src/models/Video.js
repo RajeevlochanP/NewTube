@@ -4,7 +4,7 @@ const videoSchema = new mongoose.Schema({
   originalName: String,
   mimeType: String,
   size: Number,
-  uploadTime: { type: Date, default: Date.now },
+  uploadTime: { type: Date, default: Date.now, required:true },
 
   m3u8Path: String,
   folderPath: String,
