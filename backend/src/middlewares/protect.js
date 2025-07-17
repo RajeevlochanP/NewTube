@@ -23,7 +23,9 @@ export const checkToken = (req, res, next) => {
     const token = req.cookies.token;
 
     if (!token) {
-        return res.sendStatus(403); // Forbidden
+        return res.status(403).json({
+            error: "token not there in cookies"
+        }); // Forbidden
     }
     req.token=token;
     next();

@@ -1,11 +1,30 @@
 import { getVideoById } from "../daos/video.dao.js"
 import { addComment, deleteComment, getCommentById, getCommentsByVideoId } from "../daos/comments.dao.js";
 import { addLike, isLiked, removeLike } from "../daos/likes.dao.js";
+import jwt from "jsonwebtoken";
 
-export const getVideoService = async (videoId) => {
+export const getVideoService = async (token,videoId) => {
     const video = await getVideoById(videoId);
+    if(!video){
+       return {
+        success:false,
+        message:"no video with the given videoId",
+       } 
+    }
     video.comments = await getCommentsByVideoId(videoId); //comments is an array
-    return video;
+    if(token===undefined){
+        console.log("token not there while sending video");
+        video.isLiked=false;
+    }else{
+        const decoded=jwt.verify(token, process.env.JWT_SECRET);
+        console.log(decoded);
+        video.isLiked=await isLiked(decoded._id,videoId);
+    }
+    return {
+        success:true,
+        message:"video details fetched successfully",
+        video: video,
+    }
 }
 
 export const addCommentService = async (userId, videoId, comment) => {

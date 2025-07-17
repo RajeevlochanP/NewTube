@@ -11,3 +11,5 @@ router.post("addComment/:videoId",checkToken,requireUser,addComment);
 router.post("deleteComment/:commentId",checkToken,requireUser,deleteComment);
 
 router.post("/toggleLike/:videoId",checkToken,requireUser,toggleLike);
+
+export default router;

@@ -7,6 +7,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import uploadRouter from "./routes/upload.js";
 import authRouter from "./routes/auth.js";
+import streamRouter from "./routes/stream.js";
 const app = express();
 const port = 3000;
 
@@ -27,7 +28,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 //sending to corresponding router
 app.use("/upload",uploadRouter);
 app.use("/auth",authRouter);
-
+app.use("/stream",streamRouter);
 
 app.listen(port, () => {
   console.log(`app listening on port http://localhost:${port}`);
