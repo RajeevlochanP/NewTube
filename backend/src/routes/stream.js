@@ -1,9 +1,11 @@
 import express from "express";
 import { sendVideo, toggleLike } from "../controllers/stream.controller.js"
 import { checkToken, requireUser } from "../middlewares/protect.js";
-import { addComment,deleteComment } from "../controllers/stream.controller.js";
+import { addComment,deleteComment,sendVideos } from "../controllers/stream.controller.js";
 
 const router = express.Router();
+
+router.get("/:pageNo",sendVideos);
 
 router.get("/:videoId", sendVideo);
 
