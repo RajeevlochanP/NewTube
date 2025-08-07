@@ -30,6 +30,7 @@ const storage = multer.diskStorage({
         let uploadPath = "uploads/";
         let folderPath;
         //because in future I might keep profile pictures or anything
+        let folderPath;
         if (file.fieldname === "video") {
             uploadPath += "videos/";
             const folderId = Date.now() + "-" + req.user._id;

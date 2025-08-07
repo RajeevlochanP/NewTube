@@ -17,7 +17,7 @@ export const signupService = async (email, password) => {
 
 export const loginService = async (email, password) => {
     const user = await getUserByEmail(email);
-    if (!user) {
+    if (user.length===0) {
         return { success: false, message: "No user exists for the given email" };
     }
     // console.log(user);
