@@ -1,6 +1,6 @@
 import Video from "../models/Video.js";
 
-export const addVideoDao = async (file, title, description, outputM3U8, uniqueFolderPath, userId) => {
+export const addVideoDao = async (file, title, description, masterM3U8, uniqueFolderPath, userId,visibility,genre) => {
     const newVideo = new Video({
         originalName: file.originalname,
         mimeType: file.mimetype,
@@ -8,10 +8,12 @@ export const addVideoDao = async (file, title, description, outputM3U8, uniqueFo
         title: title,
         description: description,
         uploadTime: new Date(),
-        m3u8Path: outputM3U8,
+        m3u8Path: masterM3U8,
         folderPath: uniqueFolderPath,
         uploadedBy: userId,
         likesCount: 0,
+        visibility:visibility,
+        genre:genre,
     });
 
     return await newVideo.save();
