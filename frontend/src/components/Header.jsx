@@ -1,12 +1,19 @@
 import React from 'react'
 import AOS from 'aos';
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styles from '../styles/Home.module.css'
+import { NavLink } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { authActions } from '../store';
+import { logoutCall } from '../apiCalls/Authentication';
+import toast from 'react-hot-toast';
 
 function Header() {
     const [isSignedIn, setIsSignedIn] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    
+    const dispatch = useDispatch();
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+
     useEffect(() => {
         AOS.init({
             duration: 800,
@@ -16,12 +23,17 @@ function Header() {
         });
     }, []);
 
-    const handleSignIn = () => {
-        setIsSignedIn(true);
-    };
-
-    const handleSignOut = () => {
+    const handleSignOut = async () => {
         setIsSignedIn(false);
+        dispatch(authActions.logout());
+        // let res = await logoutCall();
+        // if (res.success) {
+        //     setIsSignedIn(false);
+        //     dispatch(authActions.logout());
+        //     toast.success(res.msg);
+        //     return ;
+        // }
+        // toast.error(res.msg);
     };
 
     const handleSearch = (e) => {
@@ -57,19 +69,21 @@ function Header() {
 
                 <div className={styles.headerRight}>
                     <nav className={styles.navigation}>
-                        <a href="#" className={styles.navLink}>Home</a>
-                        <a href="#" className={styles.navLink}>Library</a>
-                        {isSignedIn ? (
+                        <NavLink to={'/'} className={styles.navLink}>Home</NavLink>
+                        <NavLink to={'/library'} className={styles.navLink}>Library</NavLink>
+                        {isAuthenticated ? (
                             <>
-                                <a href="#" className={styles.navLink}>Profile</a>
+                                <NavLink to={"/profile"} className={styles.navLink}>Profile</NavLink>
                                 <button onClick={handleSignOut} className={styles.signOutButton}>
                                     Sign Out
                                 </button>
                             </>
                         ) : (
-                            <button onClick={handleSignIn} className={styles.signInButton}>
-                                Sign In
-                            </button>
+                            <NavLink to={'/auth'}>
+                                <button  className={styles.signInButton}>
+                                    Sign In
+                                </button>
+                            </NavLink>
                         )}
                     </nav>
                 </div>

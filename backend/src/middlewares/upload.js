@@ -25,6 +25,8 @@ const ensureDirectoryExists = (dirPath) => {
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
+        console.log("upload path file");
+
         let uploadPath = "uploads/";
         //because in future I might keep profile pictures or anything
         let folderPath;
@@ -33,6 +35,7 @@ const storage = multer.diskStorage({
             const folderId = Date.now() + "-" + req.user._id;
             folderPath = path.join(uploadPath, folderId);
             ensureDirectoryExists(folderPath);
+            console.log("folderpath: ",folderPath);
             req.uniqueFolderPath = folderPath; //remember this field!!
         }
         cb(null, folderPath);
@@ -40,6 +43,7 @@ const storage = multer.diskStorage({
     filename: (req, file, cb) => {
         //as any way storing in unique folder for every file
         const fileName = path.basename(file.originalname);
+        console.log("fileName: ",fileName);
         req.storedFileName = fileName; //remember this field!!
         cb(null, fileName);
     }

@@ -8,14 +8,14 @@ function AddComment({comments,setComments}) {
       e.preventDefault();
       if (newComment.trim()) {
         const comment = {
-          id: comments.length + 1,
-          author: 'You',
-          avatar: 'https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&w=50&h=50&fit=crop',
+          // id: comments.length + 1,
+          // author: 'You',
+          // avatar: 'https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&w=50&h=50&fit=crop',
           content: newComment,
           timestamp: 'Just now',
           likes: 0
         };
-        setComments([comment, ...comments]);
+        setComments([comment, ...comments]); // adding to previous comments list
         setNewComment('');
       }
     };

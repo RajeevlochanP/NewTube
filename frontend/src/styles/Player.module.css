@@ -1,8 +1,8 @@
 /* Container */
 .container {
+  width: 100vw;
   min-height: 100vh;
   background-color: #f9f9f9;
-  width: 100vw;
   padding: 20px 0px;
 }
 
@@ -27,12 +27,238 @@
   width: 100%;
   aspect-ratio: 16/9;
   background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
 }
 
 .video {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+}
+
+/* Custom Video Controls */
+.videoControls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  padding: 20px 16px 16px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.showControls {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.videoPlayer:hover .videoControls {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Progress Bar */
+.progressContainer {
+  margin-bottom: 12px;
+}
+
+.progressBar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;
+  transition: height 0.2s ease;
+}
+
+.progressBar:hover {
+  height: 8px;
+}
+
+.progressFilled {
+  height: 100%;
+  background: #ff0000;
+  border-radius: 3px;
+  transition: width 0.1s ease;
+  position: relative;
+}
+
+.progressThumb {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  background: #ff0000;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.progressBar:hover .progressThumb {
+  opacity: 1;
+}
+
+/* Controls Row */
+.controlsRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.leftControls,
+.rightControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Control Buttons */
+.controlButton {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: background-color 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.controlButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.controlButton svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Volume Controls */
+.volumeContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.volumeSlider {
+  display: flex;
+  align-items: center;
+}
+
+.volumeInput {
+  width: 80px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  outline: none;
+  border-radius: 2px;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.volumeInput::-webkit-slider-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+.volumeInput::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #ff0000;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.volumeInput::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #ff0000;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.volumeInput::-moz-range-track {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  border: none;
+}
+
+/* Time Display */
+.timeDisplay {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Courier New', monospace;
+  min-width: 100px;
+}
+
+/* Quality Controls */
+.qualityContainer {
+  position: relative;
+}
+
+.qualityText {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.qualityMenu {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  background: rgba(0, 0, 0, 0.95);
+  border-radius: 6px;
+  padding: 8px 0;
+  margin-bottom: 8px;
+  min-width: 80px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.qualityOption {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.qualityOption:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.activeQuality {
+  background: rgba(255, 0, 0, 0.2);
+  color: #ff0000;
+}
+
+.activeQuality:hover {
+  background: rgba(255, 0, 0, 0.3);
 }
 
 /* Video Info */
@@ -506,6 +732,14 @@
     padding: 12px;
   }
   
+  .volumeSlider {
+    display: none;
+  }
+  
+  .volumeContainer {
+    gap: 8px;
+  }
+  
   .videoInfo {
     padding: 16px;
   }
@@ -542,6 +776,28 @@
 }
 
 @media (max-width: 480px) {
+  .leftControls {
+    gap: 8px;
+  }
+  
+  .rightControls {
+    gap: 8px;
+  }
+  
+  .controlButton {
+    padding: 6px;
+  }
+  
+  .controlButton svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .timeDisplay {
+    font-size: 12px;
+    min-width: 80px;
+  }
+  
   .actionButtons {
     width: 100%;
     justify-content: space-between;

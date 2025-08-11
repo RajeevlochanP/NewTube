@@ -1,10 +1,11 @@
 import React from 'react'
 import styles from '../styles/Player.module.css'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import AddComment from './AddComment';
 import Comment from './Comment';
 
 function CommentsBox() {
+    // receive commets prop from player
     const [comments, setComments] = useState([
         {
             id: 1,

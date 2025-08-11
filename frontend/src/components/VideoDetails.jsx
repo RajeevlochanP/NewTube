@@ -1,8 +1,9 @@
 import AOS from 'aos';
 import React, { useEffect, useState } from 'react'
 import styles from '../styles/Player.module.css'
+import {likeHandler} from '../handlers/Player.handlers.js'
 
-function VideoDetails() {
+function VideoDetails({videoId}) {
     const [isLiked, setIsLiked] = useState(false);
     const [isSubscribed, setIsSubscribed] = useState(false);
     const [showFullDescription, setShowFullDescription] = useState(false);
@@ -49,13 +50,16 @@ Don't forget to like and subscribe for more React tutorials!`,
         });
     }, []);
 
-      const handleLike = () => {
-    setIsLiked(!isLiked);
-  };
+    const handleLike = async () => {
+        let res=await likeHandler(videoId);
+        if(res) {
+            setIsLiked(prev=>!prev);
+        }
+    };
 
-  const handleSubscribe = () => {
-    setIsSubscribed(!isSubscribed);
-  };
+    const handleSubscribe = () => {
+        setIsSubscribed(!isSubscribed);
+    };
 
     return (
         <>

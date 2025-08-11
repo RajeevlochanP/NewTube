@@ -4,7 +4,7 @@ export const handleUpload = async (req, res) => {
     try {
         const { title,description,visibility,genre } = req.body;
         if (!description || !title || !visibility || !genre) {
-            throw new Error("desscription or title or genre is not coming from req.body");
+            throw new Error("desscription or title or genre or visibility is not coming from req.body");
         }
         if(visibility!=="public" && visibility!=="private"){
             throw new Error("visibility must be public or private");
