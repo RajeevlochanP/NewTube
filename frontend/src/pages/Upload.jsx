@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import styles from '../styles/Upload.module.css';
+import toast from 'react-hot-toast';
+import { uploadVideoCall } from '../apiCalls/Upload';
 
 const Upload = () => {
   const [formData, setFormData] = useState({
@@ -78,42 +80,35 @@ const Upload = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!formData.title.trim()) {
-      alert('Please enter a title');
+      toast.error('Please enter a title');
       return;
     }
     
     if (!formData.videoFile) {
-      alert('Please select a video file');
+      toast.error('Please select a video file');
       return;
     }
 
     // Simulate upload process
     setIsUploading(true);
     setUploadProgress(0);
+
+    let res=await uploadVidoeCall(formData.title,formData.description,formData.genre,formData.videoFile);
+    setUploadProgress(80);
+
+    let data=await res.json();
+    setUploadProgress(100);
     
-    const interval = setInterval(() => {
-      setUploadProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setIsUploading(false);
-          alert('Video uploaded successfully!');
-          // Reset form
-          setFormData({
-            title: '',
-            description: '',
-            genre: '',
-            tags: '',
-            videoFile: null
-          });
-          return 0;
-        }
-        return prev + 10;
-      });
-    }, 200);
+    if(data.success) {
+      toast.success(data.message);
+      return ;
+    }
+    toast.error(data.message);
+    
   };
 
   const formatFileSize = (bytes) => {

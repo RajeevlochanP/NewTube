@@ -1,5 +1,10 @@
 import { useState } from 'react';
 import styles from '../styles/Auth.module.css';
+import { useSelector,useDispatch } from 'react-redux';
+import {authActions} from '../store/index.js'
+import { useNavigate } from 'react-router-dom';
+import { loginCall,signupCall } from '../apiCalls/Authentication.js';
+import toast from 'react-hot-toast';
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -12,6 +17,9 @@ const Auth = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
 
+  const dispatch=useDispatch();
+  const navigate=useNavigate();
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -20,7 +28,7 @@ const Auth = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!isLogin && formData.password !== formData.confirmPassword) {
@@ -28,25 +36,34 @@ const Auth = () => {
       return;
     }
 
-    setIsLoading(true);
-    
-    // Simulate API call
-    setTimeout(() => {
+    if(isLogin) {
+      setIsLoading(true);
+      let res=await loginCall(formData.email , formData.password);
       setIsLoading(false);
-      if (isLogin) {
-        alert('Login successful!');
-      } else {
-        alert('Account created successfully!');
+
+      if(res.success) {
+        dispatch(authActions.login())
+        navigate('/');
+        toast.success(res.msg);
+        return ;
       }
-      // Reset form
-      setFormData({
-        email: '',
-        password: '',
-        confirmPassword: '',
-        firstName: '',
-        lastName: ''
-      });
-    }, 2000);
+      toast.error(res.msg)
+      return ;
+    }
+    else {
+      setIsLoading(true);
+      let res=await signupCall(formData.email , formData.password , formData.confirmPassword);
+      setIsLoading(false);
+
+      if(res.success) {
+        dispatch(authActions.login());
+        navigate('/');
+        toast.success(res.msg);
+        return ;
+      }
+      toast.error(res.msg);
+      return ;
+    }
   };
 
   const toggleAuthMode = () => {

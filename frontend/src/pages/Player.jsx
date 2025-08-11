@@ -7,8 +7,13 @@ import CommentsBox from '../components/CommentsBox';
 import VideoPlayer from '../components/VideoPlayer';
 import VideoDetails from '../components/VideoDetails';
 import RelatedVidSidebar from '../components/RelatedVidSidebar';
+import { useParams } from 'react-router-dom';
+import { getVideosById } from '../apiCalls/Home.js';
+import toast from 'react-hot-toast';
 
 const Player = () => { 
+  const [video,setVideo]=useState(null);
+  const {id} =useParams();
   useEffect(() => {
     AOS.init({
       duration: 600,
@@ -16,23 +21,40 @@ const Player = () => {
       once: true,
       offset: 50,
     });
+    // async function loadVideoById(id) {
+    //   let res=await getVideosById(id);
+    //   if(!res) {
+    //     toast.error("Error while playing video");
+    //     return ;
+    //   }
+    //   let data=await res.json();
+    //   if(data.success) {
+    //     setVideo(data.video);
+    //   }
+    //   toast.error(data.error);
+    // }
+    // loadVideoById(id);
   }, []);
 
   return (
     <div className={styles.container}>
       <div className={styles.mainContent}>
         {/* Video Player Section */}
+        {/* pass poster , src , type to this */}
         <div className={styles.videoSection}>
-          <VideoPlayer />
+          <VideoPlayer videoId={id}/>
 
         {/* Video details and channel details  */}
+        {/*  pass likes, description ,subscription data and videoId to this*/}
           <VideoDetails />
 
           {/* Comments Section */}
+          {/* pass comments to this */}
           <CommentsBox />
         </div>
 
         {/* Related Videos Sidebar */}
+        {/* fetch related videos by genere and pass */}
         <RelatedVidSidebar />
       </div>
     </div>

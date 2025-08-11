@@ -92,6 +92,7 @@ export const sendVideos = async (req, res) => {
         });
     }
     const response = await getVideosService(pageNo);
+    console.log("response :",response.videos)
     if (!response.success) {
         return res.status(500).json({
             success:false,

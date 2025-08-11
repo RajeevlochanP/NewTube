@@ -30,5 +30,7 @@ export const getVideos = async (pageNo) => {
         .skip(pageNo*limit)
         .limit(limit + 1)
         .lean();
+        console.log("asfddf");
+        console.log(videos)
     return videos;
 }
