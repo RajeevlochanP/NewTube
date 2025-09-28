@@ -34,3 +34,7 @@ export const getVideos = async (pageNo) => {
         console.log(videos)
     return videos;
 }
+
+export const getMyVideos = async (userId) => {
+  return await Video.find({uploadedBy:userId});
+}

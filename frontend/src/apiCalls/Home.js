@@ -7,6 +7,7 @@ export const getVideosByPage=async (page)=>{
         },
     });
     let data=await res.json();
+    console.log(data);
     if(res.status==200) return data;
     return null;
 }

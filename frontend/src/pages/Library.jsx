@@ -198,7 +198,6 @@ const Library = () => {
   const handleUpload = async () => {
     // Placeholder for upload functionality
     console.log('Upload video clicked');
-    alert('Upload functionality will be implemented later!');
   };
 
   return (

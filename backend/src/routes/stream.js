@@ -8,6 +8,7 @@ import {
     sendMasterManifest,
     sendManifest,
     sendSegment,
+    getMyVideos
 } from "../controllers/stream.controller.js";
 
 const router = express.Router();
@@ -24,5 +25,7 @@ router.post("addComment/:videoId",checkToken,requireUser,addComment);
 router.post("deleteComment/:commentId",checkToken,requireUser,deleteComment);
 
 router.post("/toggleLike/:videoId",checkToken,requireUser,toggleLike);
+
+router.get('myvideos',checkToken,requireUser,getMyVideos);
 
 export default router;

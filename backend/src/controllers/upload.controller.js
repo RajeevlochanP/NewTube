@@ -1,6 +1,7 @@
 import { handleUploadService } from "../services/upload.service.js";
 
 export const handleUpload = async (req, res) => {
+    console.log("req.body : ",req.body)
     try {
         const { title,description,visibility,genre } = req.body;
         if (!description || !title || !visibility || !genre) {
