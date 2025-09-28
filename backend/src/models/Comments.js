@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Video from "./Video.js";
 
 const commentSchema = new mongoose.Schema({
   videoId: {
@@ -25,6 +26,20 @@ const commentSchema = new mongoose.Schema({
 });
 
 commentSchema.index({ videoId: 1, commentedAt: -1 });
+
+commentSchema.post("save", async function (doc) {
+  await Video.findByIdAndUpdate(doc.videoId, {
+    $inc: { commentsCount: 1 },
+  });
+});
+
+commentSchema.post("findOneAndDelete", async function (doc) {
+  if (doc) {
+    await Video.findByIdAndUpdate(doc.videoId, {
+      $inc: { commentsCount: -1 },
+    });
+  }
+});
 
 const Comments = mongoose.model("Comments", commentSchema);
 

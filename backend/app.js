@@ -26,7 +26,7 @@ app.use(express.json({ limit: "500mb" }));
 app.use(express.urlencoded({ extended: true, limit: "500mb" }));
 
 // Static files
-// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/public", express.static(path.join(__dirname, "public")));
 
 //sending to corresponding router
 app.use("/upload",uploadRouter);

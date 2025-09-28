@@ -10,7 +10,14 @@ const fileFilter = (req, file, cb) => {
         } else {
             cb(new Error("Only video files (mp4, mkv, webm) are allowed"), false);
         }
-    } else {
+    // }else if(file.fieldname === "thumbnail"){
+    //     const allowedMimeTypes = [""];
+    //     if (allowedMimeTypes.includes(file.mimetype)) {
+    //         cb(null, true);
+    //     } else {
+    //         cb(new Error("Only video files (, , ) are allowed"), false);
+    //     }
+    }else {
         //for now untill i write all cases
         cb(null, true);
     }
@@ -34,17 +41,26 @@ const storage = multer.diskStorage({
             uploadPath += "videos/";
             const folderId = Date.now() + "-" + req.user._id;
             folderPath = path.join(uploadPath, folderId);
-            ensureDirectoryExists(folderPath);
-            console.log("folderpath: ",folderPath);
+            // console.log("folderpath: ", folderPath);
             req.uniqueFolderPath = folderPath; //remember this field!!
+        } else if (file.fieldname === "thumbnail") {
+            uploadPath = "public/";
+            folderPath = path.join(uploadPath, "thumbnails");
         }
+        ensureDirectoryExists(folderPath);
         cb(null, folderPath);
     },
     filename: (req, file, cb) => {
-        //as any way storing in unique folder for every file
-        const fileName = path.basename(file.originalname);
-        console.log("fileName: ",fileName);
-        req.storedFileName = fileName; //remember this field!!
+        let fileName;
+        if (file.fieldname === "thumbnail") {
+            const ext = path.extname(file.originalname);
+            fileName = Date.now() + "-" + req.user._id+ext;
+        } else if (file.fieldname === "video") {
+            //as any way storing in unique folder for every file
+            fileName = path.basename(file.originalname);
+            console.log("fileName: ", fileName);
+            req.storedFileName = fileName; //remember this field!!
+        }
         cb(null, fileName);
     }
 });
@@ -53,7 +69,7 @@ export const upload = multer({
     storage: storage,
     limits: {
         fileSize: Number.parseInt(process.env.MAX_FILE_SIZE) || 500 * 1024 * 1024, // 500MB default
-        files: 1, // Maximum 1 file per request
+        files: 5, // Maximum 5 files per request
     },
     fileFilter: fileFilter,
 });
