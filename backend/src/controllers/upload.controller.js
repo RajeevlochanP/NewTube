@@ -9,11 +9,12 @@ export const handleUpload = async (req, res) => {
         if(visibility!=="public" && visibility!=="private"){
             throw new Error("visibility must be public or private");
         }
-        const { storedFileName, uniqueFolderPath, file } = req;
+        const { storedFileName, uniqueFolderPath, files } = req;
+        const file = files?.video?.[0];
         if (!storedFileName || !uniqueFolderPath || !file) {
             throw new Error("storedFileName or uniqueFolderPath or file is not coming from req");
         }
-        const newVideo = await handleUploadService(storedFileName,uniqueFolderPath,file,title,description,req.user._id,visibility,genre);
+        const newVideo = await handleUploadService(storedFileName,uniqueFolderPath,file,title,description,req.user._id,visibility,genre,req.files.thumbnail?.[0]);
         
 
         return res.status(201).json({

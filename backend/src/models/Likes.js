@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Video from "./Video.js"
+import Video from "./Video.js";
 const likeSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -22,9 +22,8 @@ const likeSchema = new mongoose.Schema({
 likeSchema.index({ user: 1, video: 1 }, { unique: true });
 
 //hooks for incrementing and decrementing Videos number of likes
-likeSchema.post("save", async function (doc, next) {
+likeSchema.post("save", async function (doc) {
     await Video.findByIdAndUpdate(doc.video, { $inc: { likesCount: 1 } });
-    next();
 });
 likeSchema.post("findOneAndDelete", async function (doc) {
     if (doc) {
