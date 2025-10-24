@@ -1,11 +1,13 @@
 import { handleUploadService } from "../services/upload.service.js";
 
 export const handleUpload = async (req, res) => {
+    // console.log("req.body : ",req.body)
     try {
-        const { title,description,visibility,genre } = req.body;
+        let { title,description,visibility,genre } = req.body;
         if (!description || !title || !visibility || !genre) {
             throw new Error("desscription or title or genre or visibility is not coming from req.body");
         }
+        genre=JSON.parse(genre);
         if(visibility!=="public" && visibility!=="private"){
             throw new Error("visibility must be public or private");
         }

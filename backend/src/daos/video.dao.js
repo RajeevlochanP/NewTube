@@ -1,6 +1,7 @@
 import Video from "../models/Video.js";
 
 export const addVideoDao = async (file, title, description, masterM3U8, uniqueFolderPath, userId,visibility,genre,thumbnailPath) => {
+    console.log(title);
     const newVideo = new Video({
         originalName: file.originalname,
         mimeType: file.mimetype,
@@ -35,4 +36,8 @@ export const getVideos = async (pageNo) => {
         console.log("asfddf");
         console.log(videos)
     return videos;
+}
+
+export const getMyVideos = async (userId) => {
+  return await Video.find({uploadedBy:userId});
 }
