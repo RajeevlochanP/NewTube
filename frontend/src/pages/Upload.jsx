@@ -155,9 +155,10 @@ const Upload = () => {
     const formDataToSend = new FormData();
     formDataToSend.append("title", formData.title);
     formDataToSend.append("description", formData.description);
-    formDataToSend.append("genres", JSON.stringify(formData.genres)); // arrays need JSON.stringify
+    formDataToSend.append("genre", JSON.stringify(formData.genres)); // arrays need JSON.stringify
     formDataToSend.append("video", formData.video);       // File object
     formDataToSend.append("thumbnail", formData.thumbnail); // File object
+    formDataToSend.append("visibility","public");
 
     let res = await fetch('http://localhost:3000/upload/video', {
       method: 'POST',
