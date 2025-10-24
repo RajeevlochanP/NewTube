@@ -31,7 +31,7 @@ export const getVideoService = async (token, videoId) => {
 
 export const getVideosService = async (pageNo) => {
     const limit = 20;
-    console.log("page number: ",pageNo)
+    console.log("page number: ", pageNo)
     const videos = await getVideos(pageNo);
     return {
         success: true,
@@ -109,7 +109,7 @@ export const sendMasterManifestService = async (videoId, userAuthToken) => {
 };
 
 export const sendManifestService = async (token) => {
-    try{
+    try {
         console.log(process.env.JWT_SECRET);
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const manifestPath = path.join(process.cwd(), decoded.resource);
@@ -134,7 +134,7 @@ export const sendManifestService = async (token) => {
             success: true,
             manifestContent: modifiedManifest,
         };
-    }catch(error){
+    } catch (error) {
         if (error instanceof jwt.JsonWebTokenError) {
             return { success: false, status: 403, message: "Invalid or expired token." };
         }
@@ -155,15 +155,31 @@ export const sendSegmentService = async (token) => {
             success: true,
             path: absolutePath // Send the absolute path back to the controller
         };
-        
+
     } catch (error) {
         if (error instanceof jwt.JsonWebTokenError) {
             return { success: false, status: 403, message: "Invalid or expired token." };
         }
         if (error.code === 'ENOENT') {
-             return { success: false, status: 404, message: "Segment not found." };
+            return { success: false, status: 404, message: "Segment not found." };
         }
         console.error("Error in sendSegmentService:", error);
         return { success: false, status: 500, message: "Internal server error." };
     }
 };
+
+export const getMyVideosService = async (userId) => {
+    try {
+        const videos=await getMyVideos(userId);
+        return {
+            success:true,
+            videos
+        }
+    } catch (error) {
+        return {
+            status:500,
+            success:false,
+            message:error.message
+        }
+    }
+}

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const videoSchema = new mongoose.Schema({
+  title: { type: String, required: true },
   originalName: String,
   mimeType: String,
   size: Number,
@@ -37,7 +38,21 @@ const videoSchema = new mongoose.Schema({
   genre: [
     {
       type: String,
-      enum: ["adventure", "comedy", "crimeAndMystery", "fantasy", "historical", "horror", "romance", "satire", "scienceFiction", "speculative", "thriller", "isekai"],
+      enum: ['Education',
+        'Entertainment',
+        'Music',
+        'Gaming',
+        'Technology',
+        'Sports',
+        'News',
+        'Comedy',
+        'Travel',
+        'Food',
+        'Lifestyle',
+        'Science',
+        'Art',
+        'Documentary',
+        'Other'],
     },
   ],
   thumbnailPath: {

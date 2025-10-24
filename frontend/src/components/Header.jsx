@@ -46,7 +46,7 @@ function Header() {
             <header className={styles.header} data-aos="fade-down">
                 <div className={styles.headerLeft}>
                     <div className={styles.logo}>
-                        <span className={styles.logoText}>YouTube</span>
+                        <span className={styles.logoText}>NewTube</span>
                     </div>
                 </div>
 

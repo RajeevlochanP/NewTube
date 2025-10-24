@@ -4,6 +4,7 @@ export const loginCall=async (email,password)=>{
         headers:{
             "content-type":'application/json'
         },
+        credentials:'include',
         body:JSON.stringify({
             email:email,
             password:password
