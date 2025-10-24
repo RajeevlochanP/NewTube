@@ -1,8 +1,5 @@
 import { 
-    addCommentService,
-    deleteCommentService,
     getVideoService,
-    toggleLikeService,
     getVideosService,
     sendMasterManifestService,
     sendManifestService,
@@ -20,66 +17,14 @@ export const sendVideo = async (req, res) => {
     const response = await getVideoService(token, videoId);
     if (!response.success) {
         return res.status(400).json({
-            success:false,
+            success: false,
             error: response.message,
         });
     }
     return res.status(200).json({
-        success:true,
+        success: true,
         message: response.message,
         video: response.video,
-    });
-}
-
-export const addComment = async (req, res) => {
-    const { videoId } = req.params;
-    if (!videoId) {
-        return res.status(400).json({
-            error: "videoId is not coming",
-        });
-    }
-    const { comment } = req.body;
-    if (comment.length === 0) {
-        return res.status(400).json({
-            success:false,
-            error: "comment cannot be nothing",
-        });
-    }
-    return await addCommentService(req.user._id, videoId, comment);
-}
-
-export const deleteComment = async (req, res) => {
-    const { commentId } = req.params;
-    if (!commentId) {
-        return res.status(400).json({
-            success:false,
-            error: "commentId is not coming",
-        });
-    }
-    const response = await deleteCommentService(req.user._id, commentId);
-    if (!response.success) {
-        res.status(400).json({
-            success:false,
-            error: response.message,
-        });
-    } else {
-        res.status(200).json({
-            success:true,
-            message: response.message,
-        });
-    }
-}
-
-export const toggleLike = async (req, res) => {
-    const { videoId } = req.params;
-    if (!videoId) {
-        return res.status(400).json({
-            error: "videoId is not coming",
-        });
-    }
-    const response = await toggleLikeService(req.user._id, videoId);
-    return res.status(200).json({
-        message: response.message,
     });
 }
 
@@ -87,20 +32,20 @@ export const sendVideos = async (req, res) => {
     const { pageNo } = req.params;
     if (pageNo < 0 || pageNo === undefined) {
         return res.status(400).json({
-            success:false,
+            success: false,
             error: "pageNo cannot be negative"
         });
     }
     const response = await getVideosService(pageNo);
-    console.log("response :",response.videos)
+    console.log("response :", response.videos)
     if (!response.success) {
         return res.status(500).json({
-            success:false,
-            error:"internal server error on sendVideos in stream.controller.js"
+            success: false,
+            error: "internal server error on sendVideos in stream.controller.js"
         });
     }
     return res.status(200).json({
-        success:true,
+        success: true,
         message: "videos fetched successfully",
         videos: response.videos,
         hasNext: response.hasNext,
