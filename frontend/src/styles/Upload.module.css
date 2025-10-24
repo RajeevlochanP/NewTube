@@ -1,9 +1,9 @@
 /* Container */
 .container {
   min-height: 100vh;
+  width: 100vw;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   padding: 40px 0px;
-  width: 100vw;
 }
 
 /* Header */
@@ -91,69 +91,6 @@
 .hasFile {
   border-color: #48bb78;
   background: rgba(72, 187, 120, 0.05);
-}
-
-/* Thumbnail Drop Zone */
-.thumbnailDropZone {
-  border: 2px dashed #cbd5e0;
-  border-radius: 12px;
-  padding: 30px 20px;
-  text-align: center;
-  background: #f7fafc;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  position: relative;
-  min-height: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.thumbnailDropZone:hover {
-  border-color: #667eea;
-  background: #edf2f7;
-}
-
-.imageIcon {
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, #48bb78, #38a169);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  margin-bottom: 8px;
-}
-
-.imageIcon svg {
-  width: 24px;
-  height: 24px;
-}
-
-.thumbnailSelected {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 20px;
-  background: white;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
-}
-
-.thumbnailPreview {
-  width: 80px;
-  height: 45px;
-  border-radius: 6px;
-  overflow: hidden;
-  flex-shrink: 0;
-  background: #f7fafc;
-}
-
-.thumbnailImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 .fileInput {
@@ -329,49 +266,21 @@
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
-/* Genre Buttons */
-.genreButtons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 8px;
-}
-
-.genreButton {
-  padding: 8px 16px;
+.select {
+  padding: 12px 16px;
   border: 2px solid #e2e8f0;
-  border-radius: 20px;
-  background: white;
-  color: #4a5568;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
+  border-radius: 8px;
+  font-size: 1rem;
   transition: all 0.3s ease;
+  background: white;
   font-family: inherit;
+  cursor: pointer;
 }
 
-.genreButton:hover {
+.select:focus {
+  outline: none;
   border-color: #667eea;
-  background: rgba(102, 126, 234, 0.05);
-  transform: translateY(-1px);
-}
-
-.genreSelected {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
-  border-color: #667eea;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-}
-
-.genreSelected:hover {
-  background: linear-gradient(135deg, #5a67d8, #6b46c1);
-  border-color: #5a67d8;
-}
-
-.genreHelp {
-  font-size: 0.875rem;
-  color: #718096;
-  font-style: italic;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 /* Character Count */
@@ -501,11 +410,6 @@
     min-height: 160px;
   }
 
-  .thumbnailDropZone {
-    padding: 20px 16px;
-    min-height: 120px;
-  }
-
   .uploadIcon {
     width: 48px;
     height: 48px;
@@ -516,16 +420,6 @@
     height: 24px;
   }
 
-  .imageIcon {
-    width: 40px;
-    height: 40px;
-  }
-
-  .imageIcon svg {
-    width: 20px;
-    height: 20px;
-  }
-
   .dropContent h3 {
     font-size: 1.125rem;
   }
@@ -534,21 +428,6 @@
     flex-direction: column;
     text-align: center;
     gap: 12px;
-  }
-
-  .thumbnailSelected {
-    flex-direction: column;
-    text-align: center;
-    gap: 12px;
-  }
-
-  .genreButtons {
-    gap: 8px;
-  }
-
-  .genreButton {
-    font-size: 0.8rem;
-    padding: 6px 12px;
   }
 
   .submitButton {
@@ -572,26 +451,12 @@
     min-height: 140px;
   }
 
-  .thumbnailDropZone {
-    padding: 16px 12px;
-    min-height: 100px;
-  }
-
   .dropContent h3 {
     font-size: 1rem;
   }
 
   .dropContent p {
     font-size: 0.875rem;
-  }
-
-  .genreButtons {
-    gap: 6px;
-  }
-
-  .genreButton {
-    font-size: 0.75rem;
-    padding: 5px 10px;
   }
 
   .submitButton {

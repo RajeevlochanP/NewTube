@@ -1,14 +1,17 @@
-import { handleUploadService } from "../services/upload.service.js";
+import {
+    handleUploadService,
+    addCommentService,
+    deleteCommentService,
+    toggleLikeService,
+} from "../services/upload.service.js";
 
 export const handleUpload = async (req, res) => {
-    // console.log("req.body : ",req.body)
     try {
-        let { title,description,visibility,genre } = req.body;
+        const { title, description, visibility, genre } = req.body;
         if (!description || !title || !visibility || !genre) {
             throw new Error("desscription or title or genre or visibility is not coming from req.body");
         }
-        genre=JSON.parse(genre);
-        if(visibility!=="public" && visibility!=="private"){
+        if (visibility !== "public" && visibility !== "private") {
             throw new Error("visibility must be public or private");
         }
         const { storedFileName, uniqueFolderPath, files } = req;
@@ -16,8 +19,8 @@ export const handleUpload = async (req, res) => {
         if (!storedFileName || !uniqueFolderPath || !file) {
             throw new Error("storedFileName or uniqueFolderPath or file is not coming from req");
         }
-        const newVideo = await handleUploadService(storedFileName,uniqueFolderPath,file,title,description,req.user._id,visibility,genre,req.files.thumbnail?.[0]);
-        
+        const newVideo = await handleUploadService(storedFileName, uniqueFolderPath, file, title, description, req.user._id, visibility, genre, req.files.thumbnail?.[0]);
+
 
         return res.status(201).json({
             success: true,
@@ -31,3 +34,55 @@ export const handleUpload = async (req, res) => {
         res.status(500).json({ success: false, message: "Internal server error" });
     }
 };
+
+export const addComment = async (req, res) => {
+    const { videoId } = req.params;
+    if (!videoId) {
+        return res.status(400).json({
+            error: "videoId is not coming",
+        });
+    }
+    const { comment } = req.body;
+    if (comment.length === 0) {
+        return res.status(400).json({
+            success: false,
+            error: "comment cannot be nothing",
+        });
+    }
+    return await addCommentService(req.user._id, videoId, comment);
+}
+
+export const deleteComment = async (req, res) => {
+    const { commentId } = req.params;
+    if (!commentId) {
+        return res.status(400).json({
+            success: false,
+            error: "commentId is not coming",
+        });
+    }
+    const response = await deleteCommentService(req.user._id, commentId);
+    if (!response.success) {
+        res.status(400).json({
+            success: false,
+            error: response.message,
+        });
+    } else {
+        res.status(200).json({
+            success: true,
+            message: response.message,
+        });
+    }
+}
+
+export const toggleLike = async (req, res) => {
+    const { videoId } = req.params;
+    if (!videoId) {
+        return res.status(400).json({
+            error: "videoId is not coming",
+        });
+    }
+    const response = await toggleLikeService(req.user._id, videoId);
+    return res.status(200).json({
+        message: response.message,
+    });
+}

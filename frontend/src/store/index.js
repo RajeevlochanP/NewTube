@@ -17,16 +17,6 @@ const themeSlice=createSlice({
     }
 });
 
-const userSlice=createSlice({
-    initialState:{userId:''},
-    name:'user',
-    reducers:{
-        setUser(state,action) {
-            state.userId=action.payload.userId
-        }
-    }
-})
-
 const authSlice=createSlice({
     initialState:{isAuthenticated:false},
     name:'auth',
@@ -43,12 +33,10 @@ const authSlice=createSlice({
 const store=configureStore({
     reducer:{
         theme:themeSlice.reducer,
-        auth:authSlice.reducer,
-        user:userSlice.reducer
+        auth:authSlice.reducer
     }
 });
 
 export const authActions=authSlice.actions;
 export const themeActions=themeSlice.actions;
-export const userActions=userSlice.actions;
 export default store;

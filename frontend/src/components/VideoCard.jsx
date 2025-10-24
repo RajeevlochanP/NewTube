@@ -4,7 +4,6 @@ import AOS from 'aos';
 import { NavLink } from 'react-router-dom';
 
 function VideoCard({ video, index }) {
-    const thumbnail=video.thumbnailPath?video.thumbnailPath.split("\\")[2]:"default";
     useEffect(() => {
         AOS.init({
             duration: 1000,
@@ -22,15 +21,14 @@ function VideoCard({ video, index }) {
                 data-aos-delay={400 + (index * 100)}
             >
                 <div className={styles.thumbnailContainer}>
-                    {console.log(thumbnail)}
                     <img
-                        src={`http://localhost:3000/public/thumbnails/${thumbnail}`}
+                        src={video.thumbnail}
                         alt={video.title}
                         className={styles.thumbnail}
                     />
                 </div>
                 <div className={styles.videoInfo}>
-                    <h3 className={styles.videoTitle}>{video.title || "No title"}</h3>
+                    <h3 className={styles.videoTitle}>{video.title}</h3>
                     <p className={styles.channelName}>{video.channel}</p>
                     <div className={styles.videoMeta}>
                         <span>{video.views}</span>

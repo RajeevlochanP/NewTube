@@ -13,8 +13,6 @@ import toast from 'react-hot-toast';
 
 const Player = () => { 
   const [video,setVideo]=useState(null);
-  const [comments,setComments]=useState([]);
-  
   const {id} =useParams();
   useEffect(() => {
     AOS.init({
@@ -23,18 +21,18 @@ const Player = () => {
       once: true,
       offset: 50,
     });
-    async function loadVideoById(id) {
-      let res=await getVideosById(id);
-      if(!res) {
-        toast.error("Error while playing video");
-        return ;
-      }
-      let data=await res.json();
-      if(data.success) {
-        setVideo(data.video);
-      }
-      toast.error(data.error);
-    }
+    // async function loadVideoById(id) {
+    //   let res=await getVideosById(id);
+    //   if(!res) {
+    //     toast.error("Error while playing video");
+    //     return ;
+    //   }
+    //   let data=await res.json();
+    //   if(data.success) {
+    //     setVideo(data.video);
+    //   }
+    //   toast.error(data.error);
+    // }
     // loadVideoById(id);
   }, []);
 
@@ -52,7 +50,7 @@ const Player = () => {
 
           {/* Comments Section */}
           {/* pass comments to this */}
-          <CommentsBox videoId={id} comments={comments}/>
+          <CommentsBox />
         </div>
 
         {/* Related Videos Sidebar */}
