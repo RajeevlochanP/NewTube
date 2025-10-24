@@ -116,6 +116,7 @@ export const sendManifest = async (req,res) => {
         });
     }
 }
+
 export const sendSegment = async (req,res) =>{
     try{
         const { token } = req.query;

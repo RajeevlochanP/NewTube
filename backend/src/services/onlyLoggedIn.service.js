@@ -1,5 +1,8 @@
 import path from "path";
-import { addVideoDao } from "../daos/video.dao.js";
+import {
+    addVideoDao,
+    getMyVideos,
+} from "../daos/video.dao.js";
 import { segmentToHLS } from "../utils/ffmpeg.js"
 import {
     addComment,
@@ -12,11 +15,11 @@ import {
     removeLike,
 } from "../daos/likes.dao.js";
 
-export const handleUploadService = async (storedFileName, uniqueFolderPath, file, title,description,userId,visibility,genre,thumbnailFile) => {
+export const handleUploadService = async (storedFileName, uniqueFolderPath, file, title, description, userId, visibility, genre, thumbnailFile) => {
     const inputPath = path.join(uniqueFolderPath, storedFileName);
     const masterM3U8 = await segmentToHLS(inputPath, uniqueFolderPath);
     console.log(thumbnailFile.path);
-    return await addVideoDao(file,title,description,masterM3U8,uniqueFolderPath,userId,visibility,genre,thumbnailFile.path);
+    return await addVideoDao(file, title, description, masterM3U8, uniqueFolderPath, userId, visibility, genre, thumbnailFile.path);
 }
 
 export const addCommentService = async (userId, videoId, comment) => {
@@ -52,6 +55,22 @@ export const toggleLikeService = async (userId, videoId) => {
         return {
             success: true,
             message: "Unliked successfully",
+        }
+    }
+}
+
+export const getMyVideosService = async (userId) => {
+    try {
+        const videos = await getMyVideos(userId);
+        return {
+            success: true,
+            videos
+        }
+    } catch (error) {
+        return {
+            status: 500,
+            success: false,
+            message: error.message
         }
     }
 }

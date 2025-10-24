@@ -3,7 +3,8 @@ import {
     addCommentService,
     deleteCommentService,
     toggleLikeService,
-} from "../services/upload.service.js";
+    getMyVideosService,
+} from "../services/onlyLoggedIn.service.js";
 
 export const handleUpload = async (req, res) => {
     try {
@@ -85,4 +86,23 @@ export const toggleLike = async (req, res) => {
     return res.status(200).json({
         message: response.message,
     });
+}
+
+export const getMyVideos =async (req,res) => {
+    const userId=req.user._id;
+    if(userId) return res.status(404).json({
+        success:false,
+        error:"Cannot find user id"
+    });
+    let response=await getMyVideosService(userId);
+    if(!response.success) {
+        return res.status(response.status).json({
+            success:false,
+            error:response.message
+        })
+    }
+    return res.status(200).json({
+        success:true,
+        videos:response.videos
+    })
 }
