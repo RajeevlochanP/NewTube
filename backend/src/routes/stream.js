@@ -6,6 +6,7 @@ import {
     sendMasterManifest,
     sendManifest,
     sendSegment,
+    getMyVideos
 } from "../controllers/stream.controller.js";
 
 const router = express.Router();
@@ -20,4 +21,8 @@ router.get("/segment",sendSegment); //validate token and send the sengment file
 
 
 
+router.get('myvideos',checkToken,requireUser,getMyVideos);
+// Yet to implement :-
+// Liked Videos
+// Watch later videos
 export default router;

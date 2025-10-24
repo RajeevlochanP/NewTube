@@ -1,13 +1,13 @@
 import jwt from 'jsonwebtoken';
 import { getUserByEmail, addUser } from '../daos/user.dao.js';
 
-export const signupService = async (email, password) => {
+export const signupService = async (name,email, password) => {
     const user = await getUserByEmail(email);
-    console.log("sdfjkk :");
+    // console.log("sdfjkk :");
     if (user.length!==0) {
         return { success: false, message: "Email already Exists" };
     }
-    const newUser = await addUser(email, password);
+    const newUser = await addUser(name,email, password);
     const payload = { _id: newUser._id };
     const token=jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: '24h'

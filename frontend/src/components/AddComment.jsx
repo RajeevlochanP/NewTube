@@ -1,20 +1,27 @@
 import React, { useState } from 'react'
 import styles from '../styles/Player.module.css'
+import { addCommentCall } from '../apiCalls/Player';
+import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
 
-function AddComment({comments,setComments}) {
+function AddComment({comments,setComments,videoId}) {
   const [newComment, setNewComment] = useState('');
+  const userId=useSelector(state=>state.user.userId);
 
-    const handleCommentSubmit = (e) => {
+    const handleCommentSubmit = async (e) => {
       e.preventDefault();
       if (newComment.trim()) {
         const comment = {
-          // id: comments.length + 1,
-          // author: 'You',
-          // avatar: 'https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&w=50&h=50&fit=crop',
+          id: comments.length + 1,
+          author: userId,
           content: newComment,
-          timestamp: 'Just now',
-          likes: 0
         };
+
+        let res=await addCommentCall(videoId,newComment);
+        if(!res) {
+          toast.error("Cannot add your comment");
+          return ;
+        }
         setComments([comment, ...comments]); // adding to previous comments list
         setNewComment('');
       }

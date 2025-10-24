@@ -8,7 +8,7 @@ export const getUserById = async (id) => {
     return await User.findById(id);
 }
 
-export const addUser = async (email, password) => {
-    const newUser = new User({ email: email, password: password });
+export const addUser = async (name,email, password) => {
+    const newUser = new User({name: name, email: email, password: password });
     return await newUser.save();
 }

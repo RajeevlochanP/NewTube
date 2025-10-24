@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, act } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import styles from '../styles/Library.module.css';
@@ -9,6 +9,7 @@ import { uploadVideoCall } from '../apiCalls/Upload';
 const Library = () => {
   const [activeTab, setActiveTab] = useState('myVideos');
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const [currentVideos,setCurrentVideos]=useState([]);
 
   useEffect(() => {
     AOS.init({
@@ -17,7 +18,17 @@ const Library = () => {
       once: true,
       offset: 100,
     });
-  }, []);
+    console.log("active tab: ",activeTab);
+    if(activeTab==='myVideos') {
+       // api call and setCurrentVideos
+    }
+    else if(activeTab === 'liked') {
+      // apiCall and setCurrentVideos
+    }
+    else if(activeTab === 'watchLater') {
+      // apiCall
+    }
+  }, [activeTab]);
 
   // Mock data for user's uploaded videos
   const myVideos = [
@@ -193,12 +204,11 @@ const Library = () => {
     }
   };
 
-  const currentVideos = getCurrentVideos();
+  // const currentVideos = getCurrentVideos();
 
   const handleUpload = async () => {
     // Placeholder for upload functionality
     console.log('Upload video clicked');
-    alert('Upload functionality will be implemented later!');
   };
 
   return (

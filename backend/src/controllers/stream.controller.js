@@ -4,6 +4,7 @@ import {
     sendMasterManifestService,
     sendManifestService,
     sendSegmentService,
+    getMyVideosService,
 } from "../services/stream.service.js";
 
 export const sendVideo = async (req, res) => {
@@ -71,7 +72,7 @@ export const sendMasterManifest = async (req, res) => {
                 error: response.message,
             });
         }
-        
+
         // Set the content type required by HLS players
         res.setHeader('Content-Type', 'application/vnd.apple.mpegurl');
         // Send the modified manifest string as the response
@@ -86,19 +87,19 @@ export const sendMasterManifest = async (req, res) => {
     }
 }
 
-export const sendManifest = async (req,res) => {
-    try{
-        const { token }=req.query;
-        if(!token){
+export const sendManifest = async (req, res) => {
+    try {
+        const { token } = req.query;
+        if (!token) {
             return res.status(400).json({
-                success:false,
+                success: false,
                 error: "token not found",
             });
         }
         const response = await sendManifestService(token);
-        if(!response.success){
+        if (!response.success) {
             return res.status(response.status).json({
-                success:false,
+                success: false,
                 error: response.message,
             });
         }
@@ -108,7 +109,7 @@ export const sendManifest = async (req,res) => {
         // Send the modified manifest string as the response
         return res.send(response.manifestContent);
 
-    }catch(error){
+    } catch (error) {
         console.log("Server Error in sendManifest: " + error);
         return res.status(500).json({
             success: false,
@@ -116,28 +117,48 @@ export const sendManifest = async (req,res) => {
         });
     }
 }
+
 export const sendSegment = async (req,res) =>{
     try{
         const { token } = req.query;
-        if(!token){
+        if (!token) {
             return res.status(400).json({
-                success:false,
+                success: false,
                 error: "token not found",
             });
         }
         const response = await sendSegmentService(token);
-        if(!response.success){
+        if (!response.success) {
             return res.status(response.status).json({
-                success:false,
+                success: false,
                 error: response.message,
             });
         }
         res.sendFile(response.path) //i dont know whether this is correct or not
-    }catch(error){
+    } catch (error) {
         console.log("Server Error in sendSegment: " + error);
         return res.status(500).json({
             success: false,
             error: "Internal Server Error",
         });
     }
+}
+
+export const getMyVideos =async (req,res) => {
+    const userId=req.user._id;
+    if(userId) return res.status(404).json({
+        success:false,
+        error:"Cannot find user id"
+    });
+    let response=await getMyVideosService(userId);
+    if(!response.success) {
+        return res.status(response.status).json({
+            success:false,
+            error:response.message
+        })
+    }
+    return res.status(200).json({
+        success:true,
+        videos:response.videos
+    })
 }
