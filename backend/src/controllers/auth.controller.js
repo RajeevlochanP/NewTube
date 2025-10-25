@@ -1,14 +1,14 @@
 import { loginService, signupService } from "../services/auth.service.js";
 
 export const signup = async (req, res) => {
-    const { name,email, password, confirmPassword } = req.body;
-    if (!name || !email || !password || !confirmPassword) {
-        res.status(400).json({ success:false,error: "must send name,email,password,confirmPassword" });
+    const { email, password, confirmPassword } = req.body;
+    if (!email || !password || !confirmPassword) {
+        res.status(400).json({ success:false,error: "must send email,password,confirmPassword" });
     }
     if (password !== confirmPassword) {
         res.status(400).json({ success:false,error: "password didn't match with confirm password" });
     }
-    const response = await signupService(name,email, password);
+    const response = await signupService(email, password);
     if (!response.success) {
         res.status(409).json({ success:false,error: response.message });
     } else {

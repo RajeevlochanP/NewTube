@@ -32,7 +32,7 @@ const authSlice=createSlice({
     name:'auth',
     reducers:{
         login(state) {
-            state.isAuthenticated=true
+            state.isAuthenticated=true;
         },
         logout(state) {
             state.isAuthenticated=false;

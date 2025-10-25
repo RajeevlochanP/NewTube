@@ -19,6 +19,7 @@ export const addLike = async (userId, videoId) => {
 }
 
 export const removeLike=async (userId,videoId)=>{
+    console.log(videoId,userId)
     await Likes.findOneAndDelete({user:userId,video:videoId});
     return;
 }

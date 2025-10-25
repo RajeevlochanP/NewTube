@@ -2,9 +2,10 @@ import AOS from 'aos';
 import React, { useEffect, useState } from 'react'
 import styles from '../styles/Player.module.css'
 import {likeHandler} from '../handlers/Player.handlers.js'
+import toast from 'react-hot-toast';
 
-function VideoDetails({videoId}) {
-    const [isLiked, setIsLiked] = useState(false);
+function VideoDetails({videoId , likeStatus ,description}) {
+    const [isLiked, setIsLiked] = useState(likeStatus);
     const [isSubscribed, setIsSubscribed] = useState(false);
     const [showFullDescription, setShowFullDescription] = useState(false);
 
@@ -51,7 +52,12 @@ Don't forget to like and subscribe for more React tutorials!`,
     }, []);
 
     const handleLike = async () => {
-        let res=await likeHandler(videoId);
+        if(!videoId) {
+            toast.error("Video ID is missing");
+            return;
+        }
+        let res=await likeHandler(isLiked,videoId);
+        console.log("res in handleLike: ",res);
         if(res) {
             setIsLiked(prev=>!prev);
         }

@@ -12,10 +12,12 @@ import { getVideosById } from '../apiCalls/Home.js';
 import toast from 'react-hot-toast';
 
 const Player = () => { 
-  const [video,setVideo]=useState(null);
-  const [comments,setComments]=useState([]);
-  
-  const {id} =useParams();
+  const [video, setVideo] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const { id } = useParams();
+
   useEffect(() => {
     AOS.init({
       duration: 600,
@@ -23,40 +25,50 @@ const Player = () => {
       once: true,
       offset: 50,
     });
+
     async function loadVideoById(id) {
-      let res=await getVideosById(id);
-      if(!res) {
-        toast.error("Error while playing video");
-        return ;
+      try {
+        const data = await getVideosById(id);
+        console.log("data: ", data);
+
+        if (data.success) {
+          setVideo(data.video);
+          setComments(data.video.comments || []);
+        } else {
+          toast.error(data.error);
+        }
+      } catch (error) {
+        console.error("Error loading video:", error);
+        toast.error("Failed to load video");
+      } finally {
+        setLoading(false);
       }
-      let data=await res.json();
-      if(data.success) {
-        setVideo(data.video);
-      }
-      toast.error(data.error);
     }
-    // loadVideoById(id);
-  }, []);
+
+    loadVideoById(id);
+  }, [id]);
 
   return (
     <div className={styles.container}>
       <div className={styles.mainContent}>
-        {/* Video Player Section */}
-        {/* pass poster , src , type to this */}
         <div className={styles.videoSection}>
-          <VideoPlayer videoId={id}/>
-
-        {/* Video details and channel details  */}
-        {/*  pass likes, description ,subscription data and videoId to this*/}
-          <VideoDetails />
-
-          {/* Comments Section */}
-          {/* pass comments to this */}
-          <CommentsBox videoId={id} comments={comments}/>
+          {loading ? (
+            <p>Loading...</p>
+          ) : video ? (
+            <>
+              <VideoPlayer videoId={id} />
+              <VideoDetails 
+                videoId={id} 
+                likeStatus={video.isLiked} 
+                description={video.description} 
+              />
+              <CommentsBox videoId={id} comments={comments} />
+            </>
+          ) : (
+            <p>Failed to load video.</p>
+          )}
         </div>
 
-        {/* Related Videos Sidebar */}
-        {/* fetch related videos by genere and pass */}
         <RelatedVidSidebar />
       </div>
     </div>

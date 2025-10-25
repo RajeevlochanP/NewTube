@@ -13,12 +13,13 @@ export const getVideosByPage=async (page)=>{
 }
 
 export const getVideosById=async (videoId)=>{
-    let res=await fetch(`http://localhost:3000/stream/${videoId}`,{
+    let res=await fetch(`http://localhost:3000/stream/video/${videoId}`,{
         method:'GET',
         credentials:'include',
         headers:{
             "content-type":"application/json"
         }
     });
-    return res;
+    let data=await res.json();
+    return data;
 }

@@ -69,9 +69,11 @@ const Profile = () => {
   };
 
   const handleLogout = () => {
-    // Simulate logout
+    // send logout request to server 
+    localStorage.removeItem('token');
     alert('Logged out successfully!');
     setShowLogoutModal(false);
+    // Redirect to login page or home page
   };
 
   return (

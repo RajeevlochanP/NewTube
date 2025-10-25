@@ -3,7 +3,7 @@ import styles from '../styles/Player.module.css'
 import Hls from 'hls.js';
 import { useState, useEffect, useRef } from 'react'
 
-function VideoPlayer({videoId}) {
+function VideoPlayer({ videoId }) {
     // props to be used instead of hardcoded urls
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
@@ -12,13 +12,15 @@ function VideoPlayer({videoId}) {
     const [isMuted, setIsMuted] = useState(false);
     const [showVolumeSlider, setShowVolumeSlider] = useState(false);
     const [showQualityMenu, setShowQualityMenu] = useState(false);
-    const [selectedQuality, setSelectedQuality] = useState('1080p');
+    const [selectedQuality, setSelectedQuality] = useState('Auto');
+    const [qualityOptions, setQualityOptions] = useState([]);
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [showControls, setShowControls] = useState(true);
     const videoRef = useRef(null);
     const playerRef = useRef(null);
+    const hlsRef = useRef(null);
     const controlsTimeoutRef = useRef(null);
-
+    
     const togglePlay = () => {
         if (videoRef.current) {
             if (isPlaying) {
@@ -104,30 +106,70 @@ function VideoPlayer({videoId}) {
         }, 3000);
     };
 
-    const qualityOptions = ['2160p', '1440p', '1080p', '720p', '480p', '360p'];
-
-    useEffect(()=>{
+    useEffect(() => {
         if (videoRef.current) {
             if (Hls.isSupported()) {
                 const hls = new Hls({
-                    maxBufferLength: 30, 
-                    startFragPrefetch: true
+                    maxBufferLength: 30,
+                    startFragPrefetch: true,
                 });
-                hls.loadSource(`http://localhost:3000/stream/masterManifest/${videoId}`);
+                hlsRef.current = hls;
+
+                const manifestUrl = `http://localhost:3000/stream/masterManifest/${videoId}`;
+                hls.loadSource(manifestUrl);
                 hls.attachMedia(videoRef.current);
 
                 hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                    console.log("HLS manifest loaded");
+                    const levels = hls.levels.map(l => ({
+                        label: `${l.height}p`,
+                        height: l.height,
+                    }));
+                    setQualityOptions(['Auto', ...levels.map(l => l.label)]);
+
+                    const index = levels.findIndex(l => l.label === selectedQuality);
+                    if (index !== -1) hls.currentLevel = index;
                 });
 
                 return () => {
                     hls.destroy();
                 };
             } else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
-                videoRef.current.src = manifestUrl;
+                videoRef.current.src = `http://localhost:3000/stream/masterManifest/${videoId}`;
             }
         }
-    },[videoId])
+    }, [videoId]);
+
+    useEffect(() => {
+        if (!hlsRef.current || !videoRef.current) return;
+        const hls = hlsRef.current;
+        const video = videoRef.current;
+
+        if (selectedQuality === 'Auto') {
+            hls.currentLevel = -1;
+            return;
+        }
+
+        const index = qualityOptions.indexOf(selectedQuality) - 1;
+        if (index < 0) return;
+
+        // const currentTime = video.currentTime;
+        // const wasPaused = video.paused;
+
+        hls.currentLevel = index;
+        
+        // const onLevelSwitched = () => {
+        //     try {
+        //         video.currentTime = currentTime;
+        //         if (!wasPaused) video.play();
+        //     } catch (e) {
+        //         console.warn('Resume failed', e);
+        //     }
+        //     hls.off(Hls.Events.LEVEL_SWITCHED, onLevelSwitched);
+        // };
+
+        // hls.on(Hls.Events.LEVEL_SWITCHED, onLevelSwitched);
+    }, [selectedQuality]);
+
 
     return (
         // <div className={styles.videoPlayer}>
@@ -169,12 +211,12 @@ function VideoPlayer({videoId}) {
                         <div
                             className={styles.progressFilled}
                             // style={{ width: `50%` }}
-                        style={{ width: `${(currentTime / duration) * 100}%` }}
+                            style={{ width: `${(currentTime / duration) * 100}%` }}
                         />
                         <div
                             className={styles.progressThumb}
                             // style={{ left: `50%` }}
-                        style={{ left: `${(currentTime / duration) * 100}%` }}
+                            style={{ left: `${(currentTime / duration) * 100}%` }}
                         />
                     </div>
                 </div>
