@@ -1,8 +1,5 @@
-import {
-    addCommentService,
-    deleteCommentService,
+import { 
     getVideoService,
-    toggleLikeService,
     getVideosService,
     sendMasterManifestService,
     sendManifestService,
@@ -32,72 +29,6 @@ export const sendVideo = async (req, res) => {
     });
 }
 
-export const addComment = async (req, res) => {
-    try {
-        const { videoId } = req.params;
-        if (!videoId) {
-            return res.status(400).json({
-                error: "videoId is not coming",
-            });
-        }
-        const { comment } = req.body;
-        if (comment.length === 0) {
-            return res.status(400).json({
-                success: false,
-                error: "comment cannot be empty",
-            });
-        }
-        let ret = await addCommentService(req.user._id, videoId, comment);
-        if (ret) {
-            return res.status(200).json({
-                success: true,
-                message: "Added new comment",
-                id:ret._id
-            })
-        }
-    } catch (error) {
-        return res.status(500).json({
-            success:false,
-            error:"server error"
-        })
-    }
-}
-
-export const deleteComment = async (req, res) => {
-    const { commentId } = req.params;
-    if (!commentId) {
-        return res.status(400).json({
-            success: false,
-            error: "commentId is not coming",
-        });
-    }
-    const response = await deleteCommentService(req.user._id, commentId);
-    if (!response.success) {
-        res.status(400).json({
-            success: false,
-            error: response.message,
-        });
-    } else {
-        res.status(200).json({
-            success: true,
-            message: response.message,
-        });
-    }
-}
-
-export const toggleLike = async (req, res) => {
-    const { videoId } = req.params;
-    if (!videoId) {
-        return res.status(400).json({
-            error: "videoId is not coming",
-        });
-    }
-    const response = await toggleLikeService(req.user._id, videoId);
-    return res.status(200).json({
-        message: response.message,
-    });
-}
-
 export const sendVideos = async (req, res) => {
     const { pageNo } = req.params;
     if (pageNo < 0 || pageNo === undefined) {
@@ -107,7 +38,7 @@ export const sendVideos = async (req, res) => {
         });
     }
     const response = await getVideosService(pageNo);
-    // console.log("response :", response.videos)
+    console.log("response :", response.videos)
     if (!response.success) {
         return res.status(500).json({
             success: false,
@@ -187,8 +118,8 @@ export const sendManifest = async (req, res) => {
     }
 }
 
-export const sendSegment = async (req, res) => {
-    try {
+export const sendSegment = async (req,res) =>{
+    try{
         const { token } = req.query;
         if (!token) {
             return res.status(400).json({
