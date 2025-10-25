@@ -4,7 +4,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { jwtDecode } from "jwt-decode"; 
 import { authActions } from "../store";
 
-function ProtectedRoute() {
+function CheckAuthComp() {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const [checked, setChecked] = useState(false);
@@ -41,7 +41,7 @@ function ProtectedRoute() {
 
   if (!checked) return null;
 
-  return isAuthenticated ? <Outlet /> : <Navigate to="/auth" replace />;
+  return <Outlet />
 }
 
-export default ProtectedRoute;
+export default CheckAuthComp;

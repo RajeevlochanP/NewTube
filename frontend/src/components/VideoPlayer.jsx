@@ -12,7 +12,7 @@ function VideoPlayer({ videoId }) {
     const [isMuted, setIsMuted] = useState(false);
     const [showVolumeSlider, setShowVolumeSlider] = useState(false);
     const [showQualityMenu, setShowQualityMenu] = useState(false);
-    const [selectedQuality, setSelectedQuality] = useState('1080p');
+    const [selectedQuality, setSelectedQuality] = useState('Auto');
     const [qualityOptions, setQualityOptions] = useState([]);
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [showControls, setShowControls] = useState(true);
@@ -20,7 +20,7 @@ function VideoPlayer({ videoId }) {
     const playerRef = useRef(null);
     const hlsRef = useRef(null);
     const controlsTimeoutRef = useRef(null);
-
+    
     const togglePlay = () => {
         if (videoRef.current) {
             if (isPlaying) {
@@ -152,22 +152,22 @@ function VideoPlayer({ videoId }) {
         const index = qualityOptions.indexOf(selectedQuality) - 1;
         if (index < 0) return;
 
-        const currentTime = video.currentTime;
-        const wasPaused = video.paused;
+        // const currentTime = video.currentTime;
+        // const wasPaused = video.paused;
 
         hls.currentLevel = index;
+        
+        // const onLevelSwitched = () => {
+        //     try {
+        //         video.currentTime = currentTime;
+        //         if (!wasPaused) video.play();
+        //     } catch (e) {
+        //         console.warn('Resume failed', e);
+        //     }
+        //     hls.off(Hls.Events.LEVEL_SWITCHED, onLevelSwitched);
+        // };
 
-        const onLevelSwitched = () => {
-            try {
-                video.currentTime = currentTime;
-                if (!wasPaused) video.play();
-            } catch (e) {
-                console.warn('Resume failed', e);
-            }
-            hls.off(Hls.Events.LEVEL_SWITCHED, onLevelSwitched);
-        };
-
-        hls.on(Hls.Events.LEVEL_SWITCHED, onLevelSwitched);
+        // hls.on(Hls.Events.LEVEL_SWITCHED, onLevelSwitched);
     }, [selectedQuality]);
 
 

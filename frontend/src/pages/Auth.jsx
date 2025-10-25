@@ -36,7 +36,7 @@ const Auth = () => {
       return;
     }
 
-    if(isLogin) {
+    if(isLogin) {   // Login flow
       setIsLoading(true);
       let res=await loginCall(formData.email , formData.password);
       setIsLoading(false);
@@ -50,7 +50,8 @@ const Auth = () => {
       toast.error(res.msg)
       return ;
     }
-    else {
+
+    else { // Signup flow-------------------------------->
       setIsLoading(true);
       let res=await signupCall(formData.email , formData.password , formData.confirmPassword);
       setIsLoading(false);
