@@ -96,8 +96,8 @@ const Home = () => {
       let data=await getVideosByPage(0);
       if(data) {
         setVideos(data.videos);
-        console.log("data: ",data);
-        toast.success("fetched ");
+        // console.log("data: ",data);
+        // toast.success("fetched ");
         return ;
       }
       else {
