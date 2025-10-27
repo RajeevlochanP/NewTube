@@ -17,7 +17,7 @@ export const addComment=async (userId,videoId,comment)=>{
         videoId:videoId,
         comment:comment,
     });
-    return await newComment.save();
+    return (await newComment.save()).populate('userId');
 }
 
 export const deleteComment=async (commentId)=>{

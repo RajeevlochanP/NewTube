@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { use, useState } from 'react'
 import styles from '../styles/Player.module.css'
 import { addCommentCall } from '../apiCalls/Player';
 import toast from 'react-hot-toast';
@@ -11,18 +11,13 @@ function AddComment({comments,setComments,videoId}) {
     const handleCommentSubmit = async (e) => {
       e.preventDefault();
       if (newComment.trim()) {
-        const comment = {
-          id: comments.length + 1,
-          author: userId,
-          content: newComment,
-        };
 
         let res=await addCommentCall(videoId,newComment);
-        if(!res) {
+        if(!res.success) {
           toast.error("Cannot add your comment");
-          return ;
+          return;
         }
-        setComments([comment, ...comments]); // adding to previous comments list
+        setComments([res.comment, ...comments]); // adding to previous comments list
         setNewComment('');
       }
     };
@@ -30,7 +25,7 @@ function AddComment({comments,setComments,videoId}) {
   return (
     <form onSubmit={handleCommentSubmit} className={styles.addComment}>
       <img
-        src="https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&w=50&h=50&fit=crop"
+        src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
         alt="Your avatar"
         className={styles.commentAvatar}
       />

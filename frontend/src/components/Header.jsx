@@ -45,12 +45,14 @@ function Header() {
         <div>
             <header className={styles.header} data-aos="fade-down">
                 <div className={styles.headerLeft}>
-                    <div className={styles.logo}>
-                        <span className={styles.logoText}>NewTube</span>
-                    </div>
+                    <a href={window.location.origin}>
+                        <div className={styles.logo}>
+                            <span className={styles.logoText}>NewTube</span>
+                        </div>
+                    </a>
                 </div>
 
-                <div className={styles.headerCenter}>
+                {/* <div className={styles.headerCenter}>
                     <form onSubmit={handleSearch} className={styles.searchForm}>
                         <input
                             type="text"
@@ -65,7 +67,7 @@ function Header() {
                             </svg>
                         </button>
                     </form>
-                </div>
+                </div> */}
 
                 <div className={styles.headerRight}>
                     <nav className={styles.navigation}>

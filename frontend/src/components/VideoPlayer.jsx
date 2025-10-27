@@ -3,7 +3,7 @@ import styles from '../styles/Player.module.css'
 import Hls from 'hls.js';
 import { useState, useEffect, useRef } from 'react'
 
-function VideoPlayer({ videoId }) {
+function VideoPlayer({ videoId,thumbnailPath }) {
     // props to be used instead of hardcoded urls
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
@@ -20,6 +20,7 @@ function VideoPlayer({ videoId }) {
     const playerRef = useRef(null);
     const hlsRef = useRef(null);
     const controlsTimeoutRef = useRef(null);
+    // console.log(import.meta.env.VITE_BACKEND_URL + thumbnailPath);
     
     const togglePlay = () => {
         if (videoRef.current) {
@@ -115,7 +116,7 @@ function VideoPlayer({ videoId }) {
                 });
                 hlsRef.current = hls;
 
-                const manifestUrl = `http://localhost:3000/stream/masterManifest/${videoId}`;
+                const manifestUrl = `${import.meta.env.VITE_BACKEND_URL}stream/masterManifest/${videoId}`;
                 hls.loadSource(manifestUrl);
                 hls.attachMedia(videoRef.current);
 
@@ -134,7 +135,7 @@ function VideoPlayer({ videoId }) {
                     hls.destroy();
                 };
             } else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
-                videoRef.current.src = `http://localhost:3000/stream/masterManifest/${videoId}`;
+                videoRef.current.src = `${import.meta.env.VITE_BACKEND_URL}stream/masterManifest/${videoId}`;
             }
         }
     }, [videoId]);
@@ -152,22 +153,22 @@ function VideoPlayer({ videoId }) {
         const index = qualityOptions.indexOf(selectedQuality) - 1;
         if (index < 0) return;
 
-        // const currentTime = video.currentTime;
-        // const wasPaused = video.paused;
+        const currentTime = video.currentTime;
+        const wasPaused = video.paused;
 
         hls.currentLevel = index;
         
-        // const onLevelSwitched = () => {
-        //     try {
-        //         video.currentTime = currentTime;
-        //         if (!wasPaused) video.play();
-        //     } catch (e) {
-        //         console.warn('Resume failed', e);
-        //     }
-        //     hls.off(Hls.Events.LEVEL_SWITCHED, onLevelSwitched);
-        // };
+        const onLevelSwitched = () => {
+            try {
+                video.currentTime = currentTime;
+                if (!wasPaused) video.play();
+            } catch (e) {
+                console.warn('Resume failed', e);
+            }
+            hls.off(Hls.Events.LEVEL_SWITCHED, onLevelSwitched);
+        };
 
-        // hls.on(Hls.Events.LEVEL_SWITCHED, onLevelSwitched);
+        hls.on(Hls.Events.LEVEL_SWITCHED, onLevelSwitched);
     }, [selectedQuality]);
 
 
@@ -191,7 +192,7 @@ function VideoPlayer({ videoId }) {
             <video
                 ref={videoRef}
                 className={styles.video}
-                poster="https://images.pexels.com/photos/11035380/pexels-photo-11035380.jpeg?auto=compress&cs=tinysrgb&w=800&h=450&fit=crop"
+                poster={import.meta.env.VITE_BACKEND_URL + thumbnailPath}
                 onTimeUpdate={handleTimeUpdate}
                 onLoadedMetadata={handleLoadedMetadata}
                 onPlay={() => setIsPlaying(true)}

@@ -4,7 +4,7 @@ export const likeHandler=async(isLiked,videoId)=>{
         return false;
     }
     let res=await fetch(`http://localhost:3000/upload/toggleLike/${videoId}`,{
-        method:'POST',
+        method:'PATCH',
         credentials:"include",
         headers:{
             "content-type":"application/json"
@@ -12,8 +12,7 @@ export const likeHandler=async(isLiked,videoId)=>{
     });
     let data=await res.json();
     console.log("data from likeHandler: ",data);
-    if(res.status==200) return true;
-    return false;
+    return data.liked;
 }
 
 export const subscribeHandler=async ()=>{

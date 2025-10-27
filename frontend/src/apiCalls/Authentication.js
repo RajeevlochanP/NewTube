@@ -11,15 +11,10 @@ export const loginCall=async (email,password)=>{
         })
     });
     let response=await res.json();
-    if(res.status==400 || res.status==401) {
-        return {msg:response.error , success:false}
-    }
-    if(res.status==200) {
-        return {msg:response.message ,  success:true}
-    }
+    return response
 }
 
-export const signupCall=async (email,password,confirmPassword)=>{
+export const signupCall=async (name,email,password,confirmPassword)=>{
     if(password!== confirmPassword) return "Passwords did not match";
 
     let res=await fetch('http://localhost:3000/auth/signup',{
@@ -28,13 +23,14 @@ export const signupCall=async (email,password,confirmPassword)=>{
             "content-type":"application/json"
         },
         body:JSON.stringify({
+            name,
             email,
             password,
             confirmPassword
         })
     });
     let response=await res.json();
-    if(res.status==200) return {msg:response.message ,  success:true}
+    if(res.ok) return {msg:response.message ,  success:true}
     return {msg:response.error , success:false}
 }
 

@@ -5,7 +5,7 @@ import cors from "cors";
 import cookieParser from 'cookie-parser';
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import uploadRouter from "./src/routes/upload.js";
+import onlyLoggedInRouter from "./src/routes/onlyLoggedIn.js";
 import authRouter from "./src/routes/auth.js";
 import streamRouter from "./src/routes/stream.js";
 const app = express();
@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: true, limit: "500mb" }));
 app.use("/public", express.static(path.join(__dirname, "public")));
 
 //sending to corresponding router
-app.use("/upload",uploadRouter);
+app.use("/upload",onlyLoggedInRouter);
 app.use("/auth",authRouter);
 app.use("/stream",streamRouter);
 

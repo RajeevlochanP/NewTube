@@ -38,22 +38,23 @@ const Auth = () => {
 
     if(isLogin) {   // Login flow
       setIsLoading(true);
-      let res=await loginCall(formData.email , formData.password);
+      let response=await loginCall(formData.email , formData.password);
       setIsLoading(false);
 
-      if(res.success) {
-        dispatch(authActions.login())
+      if(response.success) {
+        localStorage.setItem("accessToken" , response.token);
+        dispatch(authActions.login());
         navigate('/');
         toast.success(res.msg);
         return ;
       }
-      toast.error(res.msg)
+      toast.error(res.msg);
       return ;
     }
 
     else { // Signup flow-------------------------------->
       setIsLoading(true);
-      let res=await signupCall(formData.email , formData.password , formData.confirmPassword);
+      let res=await signupCall(formData.firstName+" "+formData.lastName,formData.email , formData.password , formData.confirmPassword);
       setIsLoading(false);
 
       if(res.success) {

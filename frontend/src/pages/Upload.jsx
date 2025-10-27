@@ -358,9 +358,9 @@ const Upload = () => {
               placeholder="Tell viewers about your video"
               className={styles.textarea}
               rows="4"
-              maxLength="500"
+              maxLength="1000"
             />
-            <div className={styles.charCount}>{formData.description.length}/500</div>
+            <div className={styles.charCount}>{formData.description.length}/1000</div>
           </div>
 
           {/* Genres */}

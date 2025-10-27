@@ -23,7 +23,7 @@ export const addVideoDao = async (file, title, description, masterM3U8, uniqueFo
 }
 
 export const getVideoById = async (videoId) => {
-    return await Video.findById(videoId).lean();
+    return await Video.findById(videoId).populate('uploadedBy').lean();
 }
 
 export const getVideos = async (pageNo) => {
@@ -33,11 +33,11 @@ export const getVideos = async (pageNo) => {
         .skip(pageNo*limit)
         .limit(limit + 1)
         .lean();
-        console.log("asfddf");
-        console.log(videos)
+        // console.log("asfddf");
+        // console.log(videos)
     return videos;
 }
 
 export const getMyVideos = async (userId) => {
-  return await Video.find({uploadedBy:userId});
+  return await Video.find({uploadedBy:userId}).populate('uploadedBy');
 }

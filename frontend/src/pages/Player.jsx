@@ -13,7 +13,7 @@ import toast from 'react-hot-toast';
 
 const Player = () => { 
   const [video, setVideo] = useState(null);
-  const [comments, setComments] = useState([]);
+  // const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const { id } = useParams();
@@ -33,7 +33,7 @@ const Player = () => {
 
         if (data.success) {
           setVideo(data.video);
-          setComments(data.video.comments || []);
+          // setComments(data.video.comments || []);
         } else {
           toast.error(data.error);
         }
@@ -56,20 +56,27 @@ const Player = () => {
             <p>Loading...</p>
           ) : video ? (
             <>
-              <VideoPlayer videoId={id} />
+              <VideoPlayer 
+              videoId={id}
+              thumbnailPath={video.thumbnailPath}
+              />
               <VideoDetails 
                 videoId={id} 
                 likeStatus={video.isLiked} 
                 description={video.description} 
+                title={video.title}
+                channel={video.uploadedBy.name}
+                likesCount={video.likesCount}
+                uploadTime={video.uploadTime}
               />
-              <CommentsBox videoId={id} comments={comments} />
+              <CommentsBox videoId={id} commentss={video.comments} />
             </>
           ) : (
             <p>Failed to load video.</p>
           )}
         </div>
 
-        <RelatedVidSidebar />
+        {/* <RelatedVidSidebar /> */}
       </div>
     </div>
   );

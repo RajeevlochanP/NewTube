@@ -5,11 +5,13 @@ import styles from '../styles/Library.module.css';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { uploadVideoCall } from '../apiCalls/Upload';
+import { fetchMyVideos, timeAgo, fetchLikedVideos } from '../apiCalls/library';
+import toast from "react-hot-toast";
 
 const Library = () => {
   const [activeTab, setActiveTab] = useState('myVideos');
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-  const [currentVideos,setCurrentVideos]=useState([]);
+  const [currentVideos, setCurrentVideos] = useState([]);
 
   useEffect(() => {
     AOS.init({
@@ -18,14 +20,29 @@ const Library = () => {
       once: true,
       offset: 100,
     });
-    console.log("active tab: ",activeTab);
-    if(activeTab==='myVideos') {
-       // api call and setCurrentVideos
+    console.log("active tab: ", activeTab);
+    if (activeTab === 'myVideos') {
+      async function forAwait() {
+        const response = await fetchMyVideos();
+        console.log(response.videos);
+        if (response.success) {
+          setCurrentVideos(response.videos);
+        }
+      }
+      forAwait();
     }
-    else if(activeTab === 'liked') {
+    else if (activeTab === 'liked') {
       // apiCall and setCurrentVideos
+      async function forAwait() {
+        const response = await fetchLikedVideos();
+        console.log(response.videos);
+        if (response.success) {
+          setCurrentVideos(response.likedVideos);
+        }
+      }
+      forAwait();
     }
-    else if(activeTab === 'watchLater') {
+    else if (activeTab === 'watchLater') {
       // apiCall
     }
   }, [activeTab]);
@@ -194,13 +211,13 @@ const Library = () => {
   const getCurrentVideos = () => {
     switch (activeTab) {
       case 'myVideos':
-        return myVideos;
+        return currentVideos;
       case 'liked':
-        return likedVideos;
+        return currentVideos;
       case 'watchLater':
-        return watchLaterVideos;
+        return currentVideos;
       default:
-        return myVideos;
+        return currentVideos;
     }
   };
 
@@ -221,10 +238,10 @@ const Library = () => {
             Discover your saved content and continue watching where you left off
           </p>
         </div>
-        :
-        <div className={styles.heroContent}>
-          <h1>Please login to manage your library</h1>
-        </div>
+          :
+          <div className={styles.heroContent}>
+            <h1>Please login to manage your library</h1>
+          </div>
         }
         <div className={styles.heroBackground}></div>
       </div>
@@ -242,7 +259,10 @@ const Library = () => {
                 <rect x="1" y="5" width="15" height="14" rx="2" ry="2" stroke="currentColor" strokeWidth="2" />
               </svg>
               My Videos
-              <span className={styles.tabCount}>{myVideos.length}</span>
+
+              {activeTab === 'myVideos' && (
+                <span className={styles.tabCount}>{currentVideos.length}</span>
+              )}
             </button>
             <button
               className={`${styles.tab} ${activeTab === 'liked' ? styles.activeTab : ''}`}
@@ -252,9 +272,11 @@ const Library = () => {
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               Liked Videos
-              <span className={styles.tabCount}>{likedVideos.length}</span>
+              {activeTab === 'liked' && (
+                <span className={styles.tabCount}>{currentVideos.length}</span>
+              )}
             </button>
-            <button
+            {/* <button
               className={`${styles.tab} ${activeTab === 'watchLater' ? styles.activeTab : ''}`}
               onClick={() => setActiveTab('watchLater')}
             >
@@ -263,8 +285,10 @@ const Library = () => {
                 <polyline points="12,6 12,12 16,14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               Watch Later
-              <span className={styles.tabCount}>{watchLaterVideos.length}</span>
-            </button>
+              {activeTab === 'watchLater' && (
+                <span className={styles.tabCount}>{currentVideos.length}</span>
+              )}
+            </button> */}
           </div>
         </div>}
 
@@ -304,22 +328,22 @@ const Library = () => {
           <div className={styles.videoGrid}>
             {currentVideos.map((video, index) => (
               <div
-                key={video.id}
+                key={video._id}
                 className={styles.videoCard}
                 data-aos="zoom-in"
                 data-aos-delay={400 + (index * 100)}
               >
                 <div className={styles.thumbnailContainer}>
                   <img
-                    src={video.thumbnail}
+                    src={import.meta.env.VITE_BACKEND_URL + video.thumbnailPath}
                     alt={video.title}
                     className={styles.thumbnail}
                   />
                   <div className={styles.duration}>{video.duration}</div>
                   {/* Status badge for My Videos */}
                   {activeTab === 'myVideos' && (
-                    <div className={`${styles.statusBadge} ${styles[video.status.toLowerCase()]}`}>
-                      {video.status}
+                    <div className={`${styles.statusBadge} ${styles[video.visibility.toLowerCase()]}`}>
+                      {video.visibility}
                     </div>
                   )}
                   <div className={styles.overlay}>
@@ -330,7 +354,7 @@ const Library = () => {
                     </button>
                   </div>
                   <div className={styles.actionButtons}>
-                    <button className={styles.actionButton} title={activeTab === 'myVideos' ? 'Edit video' : 'Remove from library'}>
+                    <button className={styles.actionButton} title={activeTab === 'myVideos' ? 'Edit video' : 'dislike'}>
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         {activeTab === 'myVideos' ? (
                           <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
@@ -344,22 +368,33 @@ const Library = () => {
                         )}
                       </svg>
                     </button>
-                    <button className={styles.actionButton} title="Share">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-                        <polyline points="16,6 12,2 8,6" />
-                        <line x1="12" y1="2" x2="12" y2="15" />
+                    <button className={styles.actionButton} title="Share" onClick={() => { navigator.clipboard.writeText(window.location.origin + "/player/" + video._id); toast.success("Link copied to clipboard") }}>
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="black"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        width="24"
+                        height="24"
+                      >
+                        <circle cx="18" cy="5" r="3" />
+                        <circle cx="6" cy="12" r="3" />
+                        <circle cx="18" cy="19" r="3" />
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
                       </svg>
                     </button>
                   </div>
                 </div>
                 <div className={styles.videoInfo}>
                   <h3 className={styles.videoTitle}>{video.title}</h3>
-                  <p className={styles.channelName}>{video.channel}</p>
+                  <p className={styles.channelName}>{video.uploadedBy.name}</p>
                   <div className={styles.videoMeta}>
-                    <span>{video.views}</span>
+                    <span>{"views not implemented"}</span>
                     <span className={styles.separator}>•</span>
-                    <span>{video.timestamp}</span>
+                    <span>{timeAgo(video.uploadTime)}</span>
                   </div>
                 </div>
               </div>

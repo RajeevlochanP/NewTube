@@ -1,46 +1,47 @@
 import AOS from 'aos';
 import React, { useEffect, useState } from 'react'
 import styles from '../styles/Player.module.css'
-import {likeHandler} from '../handlers/Player.handlers.js'
+import { likeHandler } from '../handlers/Player.handlers.js'
 import toast from 'react-hot-toast';
 
-function VideoDetails({videoId , likeStatus ,description}) {
+function VideoDetails({ videoId, likeStatus, description, title, channel, likesCount, uploadTime }) {
     const [isLiked, setIsLiked] = useState(likeStatus);
     const [isSubscribed, setIsSubscribed] = useState(false);
     const [showFullDescription, setShowFullDescription] = useState(false);
+    const [likes, setLikes] = useState(likesCount);
 
+    // console.log(likesCount);
     const currentVideo = {
-        title: "React Hooks Complete Guide - useState, useEffect, and Custom Hooks",
-        channel: "CodeMaster",
-        subscribers: "1.2M",
-        views: "856K views",
-        timestamp: "3 days ago",
-        likes: "12K",
-        description: `In this comprehensive tutorial, we'll dive deep into React Hooks and learn how to use useState, useEffect, and create custom hooks. This video covers everything from basic concepts to advanced patterns.
-
-🔥 What you'll learn:
-• Understanding React Hooks fundamentals
-• useState for state management
-• useEffect for side effects
-• Creating custom hooks
-• Best practices and common patterns
-• Real-world examples and use cases
-
-📚 Timestamps:
-0:00 Introduction
-2:15 What are React Hooks?
-5:30 useState Hook
-12:45 useEffect Hook
-20:10 Custom Hooks
-28:30 Best Practices
-35:00 Conclusion
-
-💻 Source code: https://github.com/codemaster/react-hooks-guide
-📖 Blog post: https://codemaster.dev/react-hooks-guide
-
-Don't forget to like and subscribe for more React tutorials!`,
-        avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=50&h=50&fit=crop'
+        title: title,
+        channel: channel,
+        subscribers: "need to keep",
+        views: "view feature pending",
+        timestamp: timeAgo(uploadTime),
+        likes: likes,
+        description: description,
+        avatar: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
     };
+
+    function timeAgo(uploadTime) {
+        const now = new Date();
+        const uploaded = new Date(uploadTime);
+        const diffMs = now - uploaded;
+
+        const seconds = Math.floor(diffMs / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+        const months = Math.floor(days / 30);
+        const years = Math.floor(days / 365);
+
+        if (years > 0) return `${years} year${years > 1 ? 's' : ''} ago`;
+        if (months > 0) return `${months} month${months > 1 ? 's' : ''} ago`;
+        if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
+        if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+        if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+        return `${seconds} second${seconds !== 1 ? 's' : ''} ago`;
+    }
+
 
     useEffect(() => {
         AOS.init({
@@ -51,16 +52,19 @@ Don't forget to like and subscribe for more React tutorials!`,
         });
     }, []);
 
+    // useEffect(() => {
+    //     currentVideo.likes = likes;
+    // }, [likes]);
+
     const handleLike = async () => {
-        if(!videoId) {
+        if (!videoId) {
             toast.error("Video ID is missing");
             return;
         }
-        let res=await likeHandler(isLiked,videoId);
-        console.log("res in handleLike: ",res);
-        if(res) {
-            setIsLiked(prev=>!prev);
-        }
+        let res = await likeHandler(isLiked, videoId);
+        console.log("res in handleLike: ", res);
+        setIsLiked(res);
+        setLikes(prevLikes => res ? prevLikes + 1 : prevLikes - 1);
     };
 
     const handleSubscribe = () => {
@@ -91,13 +95,13 @@ Don't forget to like and subscribe for more React tutorials!`,
                             {currentVideo.likes}
                         </button>
 
-                        <button className={styles.actionButton}>
+                        {/* <button className={styles.actionButton}>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17" />
                             </svg>
-                        </button>
+                        </button> */}
 
-                        <button className={styles.actionButton}>
+                        <button className={styles.actionButton} onClick={() => { navigator.clipboard.writeText(window.location.href); toast.success("Link copied to clipboard") }}>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <circle cx="18" cy="5" r="3" />
                                 <circle cx="6" cy="12" r="3" />
@@ -117,15 +121,15 @@ Don't forget to like and subscribe for more React tutorials!`,
                     <img src={currentVideo.avatar} alt={currentVideo.channel} className={styles.channelAvatar} />
                     <div className={styles.channelMeta}>
                         <h3 className={styles.channelName}>{currentVideo.channel}</h3>
-                        <p className={styles.subscriberCount}>{currentVideo.subscribers} subscribers</p>
+                        {/* <p className={styles.subscriberCount}>{currentVideo.subscribers} subscribers</p> */}
                     </div>
                 </div>
-                <button
+                {/* <button
                     className={`${styles.subscribeButton} ${isSubscribed ? styles.subscribed : ''}`}
                     onClick={handleSubscribe}
                 >
                     {isSubscribed ? 'Subscribed' : 'Subscribe'}
-                </button>
+                </button> */}
             </div>
 
             {/* Description */}
