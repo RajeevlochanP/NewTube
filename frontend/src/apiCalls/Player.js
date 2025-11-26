@@ -10,7 +10,7 @@ export const likeVideoCall=async (videoId) => {
 }
 
 export const addCommentCall = async (videoId,comment)=>{
-    let res=await fetch(`${import.meta.env.VITE_BACKEND_URL}upload/addComment/${videoId}`,{
+    let res=await fetch(`${import.meta.env.VITE_BACKEND_URL}/upload/addComment/${videoId}`,{
         method:'POST',
         headers:{
             "content-type":"application/json"

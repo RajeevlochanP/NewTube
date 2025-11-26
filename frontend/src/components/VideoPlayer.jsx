@@ -116,7 +116,7 @@ function VideoPlayer({ videoId,thumbnailPath }) {
                 });
                 hlsRef.current = hls;
 
-                const manifestUrl = `${import.meta.env.VITE_BACKEND_URL}stream/masterManifest/${videoId}`;
+                const manifestUrl = `${import.meta.env.VITE_BACKEND_URL}/stream/masterManifest/${videoId}`;
                 hls.loadSource(manifestUrl);
                 hls.attachMedia(videoRef.current);
 
@@ -135,7 +135,7 @@ function VideoPlayer({ videoId,thumbnailPath }) {
                     hls.destroy();
                 };
             } else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
-                videoRef.current.src = `${import.meta.env.VITE_BACKEND_URL}stream/masterManifest/${videoId}`;
+                videoRef.current.src = `${import.meta.env.VITE_BACKEND_URL}/stream/masterManifest/${videoId}`;
             }
         }
     }, [videoId]);
@@ -192,7 +192,7 @@ function VideoPlayer({ videoId,thumbnailPath }) {
             <video
                 ref={videoRef}
                 className={styles.video}
-                poster={import.meta.env.VITE_BACKEND_URL + thumbnailPath}
+                poster={import.meta.env.VITE_BACKEND_URL + "/" + thumbnailPath}
                 onTimeUpdate={handleTimeUpdate}
                 onLoadedMetadata={handleLoadedMetadata}
                 onPlay={() => setIsPlaying(true)}

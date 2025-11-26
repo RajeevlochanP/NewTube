@@ -335,7 +335,7 @@ const Library = () => {
               >
                 <div className={styles.thumbnailContainer}>
                   <img
-                    src={import.meta.env.VITE_BACKEND_URL + video.thumbnailPath}
+                    src={import.meta.env.VITE_BACKEND_URL+ "/" + video.thumbnailPath}
                     alt={video.title}
                     className={styles.thumbnail}
                   />

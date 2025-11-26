@@ -22,7 +22,7 @@ export function timeAgo(uploadTime) {
 
 export const fetchMyVideos = async () => {
     try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}upload/myvideos`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/upload/myvideos`, {
             method: "GET",
             headers: { 
                 "Content-Type": "application/json",
@@ -43,7 +43,7 @@ export const fetchMyVideos = async () => {
 
 export const fetchLikedVideos = async () => {
     try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}upload/likedVideos`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/upload/likedVideos`, {
             method: "GET",
             headers: { 
                 "Content-Type": "application/json",

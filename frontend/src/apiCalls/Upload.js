@@ -5,7 +5,7 @@ export const uploadVideoCall = async (title, description, genre, video) => {
     formData.append("genre", genre);
     formData.append("video", video); 
 
-    let res = await fetch("http://localhost:3000/upload/video", {
+    let res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/upload/video`, {
         method: "POST",
         credentials: "include",
         body: formData 

@@ -8,6 +8,9 @@ import { fileURLToPath } from "node:url";
 import onlyLoggedInRouter from "./src/routes/onlyLoggedIn.js";
 import authRouter from "./src/routes/auth.js";
 import streamRouter from "./src/routes/stream.js";
+import dotenv from 'dotenv';
+
+dotenv.config();
 const app = express();
 const port = 3000;
 

@@ -1,8 +1,5 @@
 // this middleware checks whether user logged in or not also serializing all user details in  req.user
 import jwt from "jsonwebtoken";
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 //will check whether req.token is valid and if yes serialize user details in req.user
 export const requireUser = (req, res, next) => {
