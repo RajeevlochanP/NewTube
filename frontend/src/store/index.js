@@ -18,11 +18,35 @@ const themeSlice=createSlice({
 });
 
 const userSlice=createSlice({
-    initialState:{userId:''},
+    initialState:{
+        userId:'',
+        username:'',
+        email:'',
+        joinDate:'',
+        avatar:'',
+        profileFetched:false
+    },
     name:'user',
     reducers:{
         setUser(state,action) {
             state.userId=action.payload.userId
+        },
+        setProfile(state,action) {
+            state.username=action.payload.username || '';
+            state.email=action.payload.email || '';
+            state.joinDate=action.payload.joinDate || '';
+            state.avatar=action.payload.avatar || '';
+            state.profileFetched=true;
+        },
+        updateUsername(state,action) {
+            state.username=action.payload.username;
+        },
+        clearProfile(state) {
+            state.username='';
+            state.email='';
+            state.joinDate='';
+            state.avatar='';
+            state.profileFetched=false;
         }
     }
 })

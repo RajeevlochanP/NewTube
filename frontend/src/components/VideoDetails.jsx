@@ -62,7 +62,10 @@ function VideoDetails({ videoId, likeStatus, description, title, channel, likesC
             return;
         }
         let res = await likeHandler(isLiked, videoId);
-        console.log("res in handleLike: ", res);
+        if (res === undefined) {
+            toast.error("Login to like the video");
+            return;
+        }
         setIsLiked(res);
         setLikes(prevLikes => res ? prevLikes + 1 : prevLikes - 1);
     };

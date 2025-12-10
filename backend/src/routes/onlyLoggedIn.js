@@ -12,6 +12,8 @@ import {
     getMyVideos,
     getMyDetails,
     getLikedDetails,
+    updateProfile,
+    updatePassword
 } from "../controllers/onlyLoggedIn.controller.js"
 
 const router = express.Router();
@@ -37,6 +39,8 @@ router.patch("/toggleLike/:videoId", toggleLike);
 router.get('/myVideos', getMyVideos);
 router.get("/myDetails", getMyDetails);
 router.get("/likedVideos", getLikedDetails);
+router.post("/updateProfile",updateProfile);
+router.post("/updatePassword",updatePassword);
 
 
 export default router;

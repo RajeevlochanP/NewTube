@@ -113,3 +113,61 @@ export const getLikedDetailsService = async (userId) => {
         }
     }
 }
+
+export const updateProfileService=async(userId,name)=>{
+    try{
+        const userDetails=await getUserById(userId);
+        if(!userDetails){
+            return {
+                success:false,
+                status:404,
+                message:"User not found"
+            }
+        }
+        userDetails.name=name||userDetails.name;
+        await userDetails.save();
+        return {
+            success:true,
+            message:"Profile updated successfully"
+        }
+    }catch(error){
+        return {
+            status:500,
+            success:false,
+            message:error.message
+        }
+    }
+}
+
+export const updatePasswordService=async(userId,currentPassword,newPassword)=>{
+    try{
+        const userDetails=await getUserById(userId);
+        if(!userDetails){ 
+            return {
+                success:false,
+                status:404,
+                message:"User not found"
+            }
+        }
+        const isMatch=(userDetails.password===currentPassword);
+        if(!isMatch){
+            return {
+                success:false,  
+                status:400,
+                message:"Current password is incorrect"
+            }
+        }
+        userDetails.password=newPassword;
+        await userDetails.save();
+        return {
+            success:true,
+            message:"Password updated successfully"
+        }
+    }   catch(error){
+        return {
+            status:500, 
+            success:false,
+            message:error.message
+        }
+    }
+}

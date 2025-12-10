@@ -7,8 +7,9 @@ import {
     getMyVideosService,
     getMyDetailsService,
     getLikedDetailsService,
+    updateProfileService,
+    updatePasswordService,
 } from "../services/onlyLoggedIn.service.js";
-import e from "express";
 
 export const handleUpload = async (req, res) => {
     try {
@@ -161,5 +162,70 @@ export const getLikedDetails = async (req, res) => {
     } catch (err) {
         console.error("Get Liked Videos Error: ", err);
         return res.status(500).json({ success: false, message: "Internal server error" });
+    }
+}
+
+export const updateProfile = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const { name } = req.body;
+        if (!name) {
+            return res.status(400).json({
+                success: false,
+                message: "Name is required"
+            });
+        }
+        //call service
+        //service to update user profile
+        // console.log("Updating profile for userId:", userId, "with name:", name);
+        const response = await updateProfileService(userId, name);
+        if (!response.success) {
+            return res.status(response.status).json({
+                success: false,
+                message: response.message
+            });
+        }
+        return res.status(200).json({
+            success: true,
+            message: "Profile updated successfully",
+            updatedDetails: response.updatedDetails
+        });
+    } catch (err) {
+        console.error("Update Profile Error:", err);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
+}
+
+export const updatePassword = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const { currentPassword, newPassword } = req.body;
+        if (!currentPassword || !newPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "Current password and new password are required"
+            });
+        }
+        //call service to update password
+        const response = await updatePasswordService(userId, currentPassword, newPassword);
+        if (!response.success) {
+            return res.status(response.status).json({
+                success: false,
+                message: response.message
+            });
+        }
+        return res.status(200).json({
+            success: true,
+            message: "Password updated successfully"
+        });
+    } catch (err) {
+        console.error("Update Password Error:", err);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
     }
 }
