@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { getUserByEmail, addUser } from '../daos/user.dao.js';
+import { getUserByEmail, addUser, getUserById } from '../daos/user.dao.js';
 
 export const signupService = async (name,email, password) => {
     const user = await getUserByEmail(email);
@@ -36,3 +36,16 @@ export const loginService = async (email, password) => {
         return { success: false, message: "Wrong password for the given email" };
     }
 };
+
+export const getUserDetailsService=async(userId)=>{
+    try{
+        const user=await getUserById(userId);
+        if(!user){
+            return {success:false,message:"User not found"};
+        }
+        return {success:true,user};
+    }catch(err){
+        console.error("Error in getUserDetailsService:",err);
+        return {success:false,message:"Internal server error"};
+    }
+}

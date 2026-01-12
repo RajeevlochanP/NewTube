@@ -1,6 +1,4 @@
-import { useState, useEffect, act } from 'react';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import { useState, useEffect } from 'react';
 import styles from '../styles/Library.module.css';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -14,12 +12,6 @@ const Library = () => {
   const [currentVideos, setCurrentVideos] = useState([]);
 
   useEffect(() => {
-    AOS.init({
-      duration: 800,
-      easing: 'ease-out-cubic',
-      once: true,
-      offset: 100,
-    });
     console.log("active tab: ", activeTab);
     if (activeTab === 'myVideos') {
       async function forAwait() {
@@ -32,7 +24,6 @@ const Library = () => {
       forAwait();
     }
     else if (activeTab === 'liked') {
-      // apiCall and setCurrentVideos
       async function forAwait() {
         const response = await fetchLikedVideos();
         console.log(response.videos);
@@ -231,7 +222,7 @@ const Library = () => {
   return (
     <div className={styles.container}>
       {/* Hero Section */}
-      <div className={styles.hero} data-aos="fade-down">
+      <div className={styles.hero}>
         {isAuthenticated ? <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>Your Library</h1>
           <p className={styles.heroSubtitle}>
@@ -248,7 +239,7 @@ const Library = () => {
 
       {/* Tab Navigation */}
       {isAuthenticated &&
-        <div className={styles.tabContainer} data-aos="fade-up" data-aos-delay="200">
+        <div className={styles.tabContainer}>
           <div className={styles.tabWrapper}>
             <button
               className={`${styles.tab} ${activeTab === 'myVideos' ? styles.activeTab : ''}`}
@@ -296,7 +287,7 @@ const Library = () => {
         <div className={styles.content}>
           {/* Upload Button - Only show in My Videos tab */}
           {activeTab === 'myVideos' && (
-            <div className={styles.uploadSection} data-aos="fade-right" data-aos-delay="250">
+            <div className={styles.uploadSection}>
               <NavLink to={'/upload'}>
                 <button onClick={handleUpload} className={styles.uploadButton}>
                   <svg className={styles.uploadIcon} viewBox="0 0 24 24" fill="none">
@@ -310,7 +301,7 @@ const Library = () => {
             </div>
           )}
 
-          <div className={styles.sectionHeader} data-aos="fade-right" data-aos-delay="300">
+          <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>
               {activeTab === 'myVideos' ? 'Your Uploaded Videos' :
                 activeTab === 'liked' ? 'Videos You Liked' : 'Watch Later Queue'}
@@ -330,8 +321,6 @@ const Library = () => {
               <div
                 key={video._id}
                 className={styles.videoCard}
-                data-aos="zoom-in"
-                data-aos-delay={400 + (index * 100)}
               >
                 <div className={styles.thumbnailContainer}>
                   <img
@@ -403,7 +392,7 @@ const Library = () => {
 
           {/* Empty State */}
           {currentVideos.length === 0 && (
-            <div className={styles.emptyState} data-aos="fade-up" data-aos-delay="400">
+            <div className={styles.emptyState}>
               <div className={styles.emptyIcon}>
                 {activeTab === 'myVideos' ? (
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">

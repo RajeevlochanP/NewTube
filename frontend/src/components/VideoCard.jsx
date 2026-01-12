@@ -1,30 +1,18 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styles from '../styles/Home.module.css'
-import AOS from 'aos';
 import { NavLink } from 'react-router-dom';
 
 function VideoCard({ video, index }) {
-    const thumbnail=video.thumbnailPath?video.thumbnailPath.split("\\")[2]:"default";
-    useEffect(() => {
-        AOS.init({
-            duration: 1000,
-            easing: 'ease-out-cubic',
-            once: true,
-            offset: 100,
-        });
-    }, []);
+    // console.log(video.thumbnailPath);
+    
+    // const thumbnail = video.thumbnailPath ? video.thumbnailPath.split("\\")[2] : "default";
 
     return (
         <NavLink to={`/player/${video._id}`}>
-            <div
-                className={styles.videoCard}
-                data-aos="fade-up"
-                data-aos-delay={400 + (index * 100)}
-            >
+            <div className={styles.videoCard}>
                 <div className={styles.thumbnailContainer}>
-                    {console.log(thumbnail)}
                     <img
-                        src={`http://localhost:3000/public/thumbnails/${thumbnail}`}
+                        src={`${import.meta.env.VITE_BACKEND_URL}/${video.thumbnailPath}`}
                         alt={video.title}
                         className={styles.thumbnail}
                     />

@@ -1,38 +1,35 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Navigate, Outlet } from "react-router-dom";
-import { jwtDecode } from "jwt-decode"; 
-import { authActions } from "../store";
+import { Outlet } from "react-router-dom";
+import { authActions, userActions } from "../store";
+import { checkAuthCall } from "../apiCalls/Authentication";
 
 function CheckAuthComp() {
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
     (async () => {
-      const token = localStorage.getItem("accessToken");
-
-      if (!token) {
-        dispatch(authActions.logout());
-        setChecked(true);
-        return;
-      }
-
       try {
-        const decoded = jwtDecode(token);
-        const currentTime = Date.now() / 1000;
-
-        if (decoded && decoded.exp && decoded.exp > currentTime) {
+        // Call /auth/me to check if user is authenticated
+        const response = await checkAuthCall();
+        
+        if (response.success && response.user) {
+          // User is authenticated - set auth state and user data
           dispatch(authActions.login());
+          dispatch(userActions.setUser({
+            name: response.user.name,
+            email: response.user.email
+          }));
         } else {
-          localStorage.removeItem("token");
+          // User is not authenticated
           dispatch(authActions.logout());
+          dispatch(userActions.clearProfile());
         }
       } catch (err) {
-        console.warn("Invalid JWT:", err);
-        localStorage.removeItem("token");
+        console.warn("Auth check failed:", err);
         dispatch(authActions.logout());
+        dispatch(userActions.clearProfile());
       } finally {
         setChecked(true);
       }

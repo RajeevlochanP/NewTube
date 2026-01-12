@@ -1,5 +1,4 @@
-import AOS from 'aos';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styles from '../styles/Player.module.css'
 import { likeHandler } from '../handlers/Player.handlers.js'
 import toast from 'react-hot-toast';
@@ -10,7 +9,6 @@ function VideoDetails({ videoId, likeStatus, description, title, channel, likesC
     const [showFullDescription, setShowFullDescription] = useState(false);
     const [likes, setLikes] = useState(likesCount);
 
-    // console.log(likesCount);
     const currentVideo = {
         title: title,
         channel: channel,
@@ -41,20 +39,6 @@ function VideoDetails({ videoId, likeStatus, description, title, channel, likesC
         if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
         return `${seconds} second${seconds !== 1 ? 's' : ''} ago`;
     }
-
-
-    useEffect(() => {
-        AOS.init({
-            duration: 600,
-            easing: 'ease-out-cubic',
-            once: true,
-            offset: 50,
-        });
-    }, []);
-
-    // useEffect(() => {
-    //     currentVideo.likes = likes;
-    // }, [likes]);
 
     const handleLike = async () => {
         if (!videoId) {

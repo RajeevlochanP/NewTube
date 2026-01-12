@@ -1,106 +1,67 @@
 /* Container */
 .container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  padding: 40px 0px;
+  background: #f9f9f9;
+  padding: 24px;
   width: 100vw;
 }
 
 /* Header */
 .header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 }
 
 .title {
-  font-size: 3rem;
-  font-weight: 800;
-  color: #2d3748;
-  margin-bottom: 12px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-size: 24px;
+  font-weight: 500;
+  color: #0f0f0f;
+  margin-bottom: 8px;
 }
 
 .subtitle {
-  font-size: 1.25rem;
-  color: #718096;
-  font-weight: 400;
+  font-size: 14px;
+  color: #606060;
 }
 
 /* Upload Card */
 .uploadCard {
-  max-width: 800px;
+  max-width: 700px;
   margin: 0 auto;
-  background: white;
-  border-radius: 20px;
-  padding: 40px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #fff;
+  border-radius: 8px;
+  padding: 24px;
+  border: 1px solid #e0e0e0;
 }
 
 /* Form */
 .form {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 24px;
 }
 
 /* Section */
 .section {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .sectionTitle {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #2d3748;
-  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0f0f0f;
+  margin-bottom: 4px;
 }
 
 /* Drop Zone */
 .dropZone {
-  border: 2px dashed #cbd5e0;
-  border-radius: 12px;
-  padding: 40px 20px;
+  border: 1px dashed #ccc;
+  border-radius: 4px;
+  padding: 32px 16px;
   text-align: center;
-  background: #f7fafc;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  position: relative;
-  min-height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.dropZone:hover {
-  border-color: #667eea;
-  background: #edf2f7;
-}
-
-.dragActive {
-  border-color: #667eea;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-  transform: scale(1.02);
-}
-
-.hasFile {
-  border-color: #48bb78;
-  background: rgba(72, 187, 120, 0.05);
-}
-
-/* Thumbnail Drop Zone */
-.thumbnailDropZone {
-  border: 2px dashed #cbd5e0;
-  border-radius: 12px;
-  padding: 30px 20px;
-  text-align: center;
-  background: #f7fafc;
-  transition: all 0.3s ease;
+  background: #fafafa;
   cursor: pointer;
   position: relative;
   min-height: 150px;
@@ -109,45 +70,75 @@
   justify-content: center;
 }
 
+.dropZone:hover {
+  border-color: #909090;
+  background: #f5f5f5;
+}
+
+.dragActive {
+  border-color: #1a73e8;
+  background: #e8f0fe;
+}
+
+.hasFile {
+  border-color: #34a853;
+  background: #e6f4ea;
+}
+
+/* Thumbnail Drop Zone */
+.thumbnailDropZone {
+  border: 1px dashed #ccc;
+  border-radius: 4px;
+  padding: 24px 16px;
+  text-align: center;
+  background: #fafafa;
+  cursor: pointer;
+  position: relative;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .thumbnailDropZone:hover {
-  border-color: #667eea;
-  background: #edf2f7;
+  border-color: #909090;
+  background: #f5f5f5;
 }
 
 .imageIcon {
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, #48bb78, #38a169);
+  width: 40px;
+  height: 40px;
+  background: #34a853;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: #fff;
   margin-bottom: 8px;
 }
 
 .imageIcon svg {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
 }
 
 .thumbnailSelected {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 20px;
-  background: white;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
+  gap: 12px;
+  padding: 16px;
+  background: #fff;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
 }
 
 .thumbnailPreview {
   width: 80px;
   height: 45px;
-  border-radius: 6px;
+  border-radius: 4px;
   overflow: hidden;
   flex-shrink: 0;
-  background: #f7fafc;
+  background: #f0f0f0;
 }
 
 .thumbnailImage {
@@ -170,57 +161,52 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .uploadIcon {
-  width: 64px;
-  height: 64px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  width: 48px;
+  height: 48px;
+  background: #ff0000;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  margin-bottom: 8px;
+  color: #fff;
 }
 
 .uploadIcon svg {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
 }
 
 .dropContent h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #2d3748;
+  font-size: 16px;
+  font-weight: 500;
+  color: #0f0f0f;
   margin: 0;
 }
 
 .dropContent p {
-  font-size: 1rem;
-  color: #718096;
+  font-size: 14px;
+  color: #606060;
   margin: 0;
 }
 
 .browseLink {
-  color: #667eea;
-  font-weight: 600;
+  color: #1a73e8;
+  font-weight: 500;
   cursor: pointer;
   text-decoration: underline;
 }
 
-.browseLink:hover {
-  color: #5a67d8;
-}
-
 .fileInfo {
-  margin-top: 16px;
+  margin-top: 12px;
 }
 
 .fileInfo p {
-  font-size: 0.875rem;
-  color: #a0aec0;
+  font-size: 12px;
+  color: #909090;
   margin: 4px 0;
 }
 
@@ -228,28 +214,28 @@
 .fileSelected {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 20px;
-  background: white;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
+  gap: 12px;
+  padding: 16px;
+  background: #fff;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
 }
 
 .fileIcon {
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, #48bb78, #38a169);
-  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  background: #34a853;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: #fff;
   flex-shrink: 0;
 }
 
 .fileIcon svg {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
 }
 
 .fileDetails {
@@ -257,214 +243,199 @@
 }
 
 .fileDetails h4 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #2d3748;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0f0f0f;
   margin: 0 0 4px 0;
 }
 
 .fileDetails p {
-  font-size: 0.875rem;
-  color: #718096;
+  font-size: 12px;
+  color: #606060;
   margin: 0;
 }
 
 .removeFile {
-  width: 32px;
-  height: 32px;
-  background: #fed7d7;
+  width: 28px;
+  height: 28px;
+  background: #fee2e2;
   border: none;
   border-radius: 50%;
-  color: #e53e3e;
+  color: #dc2626;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
   flex-shrink: 0;
 }
 
 .removeFile:hover {
-  background: #feb2b2;
-  transform: scale(1.1);
+  background: #fecaca;
 }
 
 .removeFile svg {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
 }
 
 /* Input Fields */
 .input {
-  padding: 12px 16px;
-  border: 2px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  background: white;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background: #fff;
   font-family: inherit;
 }
 
 .input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #1a73e8;
 }
 
 .textarea {
-  padding: 12px 16px;
-  border: 2px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  background: white;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background: #fff;
   font-family: inherit;
   resize: vertical;
-  min-height: 100px;
+  min-height: 80px;
 }
 
 .textarea:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #1a73e8;
 }
 
 /* Genre Buttons */
 .genreButtons {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 8px;
   margin-bottom: 8px;
 }
 
 .genreButton {
-  padding: 8px 16px;
-  border: 2px solid #e2e8f0;
-  border-radius: 20px;
-  background: white;
-  color: #4a5568;
-  font-size: 0.875rem;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  background: #fff;
+  color: #606060;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
   font-family: inherit;
 }
 
 .genreButton:hover {
-  border-color: #667eea;
-  background: rgba(102, 126, 234, 0.05);
-  transform: translateY(-1px);
+  border-color: #909090;
+  background: #f5f5f5;
 }
 
 .genreSelected {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
-  border-color: #667eea;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  background: #0f0f0f;
+  color: #fff;
+  border-color: #0f0f0f;
 }
 
 .genreSelected:hover {
-  background: linear-gradient(135deg, #5a67d8, #6b46c1);
-  border-color: #5a67d8;
+  background: #272727;
+  border-color: #272727;
 }
 
 .genreHelp {
-  font-size: 0.875rem;
-  color: #718096;
-  font-style: italic;
+  font-size: 12px;
+  color: #909090;
 }
 
 /* Character Count */
 .charCount {
-  font-size: 0.875rem;
-  color: #a0aec0;
+  font-size: 12px;
+  color: #909090;
   text-align: right;
   margin-top: 4px;
 }
 
 /* Tag Help */
 .tagHelp {
-  font-size: 0.875rem;
-  color: #718096;
-  font-style: italic;
+  font-size: 12px;
+  color: #909090;
 }
 
 /* Progress Section */
 .progressSection {
-  background: #f7fafc;
-  padding: 20px;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
+  background: #f5f5f5;
+  padding: 16px;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
 }
 
 .progressLabel {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #2d3748;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0f0f0f;
   margin-bottom: 8px;
 }
 
 .progressBar {
   width: 100%;
-  height: 8px;
-  background: #e2e8f0;
-  border-radius: 4px;
+  height: 4px;
+  background: #e0e0e0;
+  border-radius: 2px;
   overflow: hidden;
 }
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(90deg, #667eea, #764ba2);
-  border-radius: 4px;
-  transition: width 0.3s ease;
+  background: #ff0000;
+  border-radius: 2px;
 }
 
 /* Submit Section */
 .submitSection {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 .submitButton {
   display: flex;
   align-items: center;
-  gap: 12px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
+  gap: 8px;
+  background: #ff0000;
+  color: #fff;
   border: none;
-  padding: 16px 32px;
-  border-radius: 12px;
-  font-size: 1.125rem;
-  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
-  min-width: 180px;
+  min-width: 150px;
   justify-content: center;
 }
 
 .submitButton:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+  background: #cc0000;
 }
 
 .submitButton:disabled {
   opacity: 0.7;
   cursor: not-allowed;
-  transform: none;
 }
 
 .submitButton svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
 }
 
 /* Spinner */
 .spinner {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top: 2px solid white;
+  border-top: 2px solid #fff;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -477,112 +448,65 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .container {
-    padding: 20px 16px;
+    padding: 16px;
   }
 
   .title {
-    font-size: 2.5rem;
-  }
-
-  .subtitle {
-    font-size: 1.125rem;
-  }
-
-  .uploadCard {
-    padding: 24px;
-  }
-
-  .form {
-    gap: 24px;
-  }
-
-  .dropZone {
-    padding: 30px 16px;
-    min-height: 160px;
-  }
-
-  .thumbnailDropZone {
-    padding: 20px 16px;
-    min-height: 120px;
-  }
-
-  .uploadIcon {
-    width: 48px;
-    height: 48px;
-  }
-
-  .uploadIcon svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  .imageIcon {
-    width: 40px;
-    height: 40px;
-  }
-
-  .imageIcon svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .dropContent h3 {
-    font-size: 1.125rem;
-  }
-
-  .fileSelected {
-    flex-direction: column;
-    text-align: center;
-    gap: 12px;
-  }
-
-  .thumbnailSelected {
-    flex-direction: column;
-    text-align: center;
-    gap: 12px;
-  }
-
-  .genreButtons {
-    gap: 8px;
-  }
-
-  .genreButton {
-    font-size: 0.8rem;
-    padding: 6px 12px;
-  }
-
-  .submitButton {
-    padding: 14px 28px;
-    font-size: 1rem;
-    min-width: 160px;
-  }
-}
-
-@media (max-width: 480px) {
-  .title {
-    font-size: 2rem;
+    font-size: 20px;
   }
 
   .uploadCard {
     padding: 20px;
   }
 
+  .form {
+    gap: 20px;
+  }
+
   .dropZone {
-    padding: 20px 12px;
-    min-height: 140px;
+    padding: 24px 12px;
+    min-height: 120px;
   }
 
   .thumbnailDropZone {
-    padding: 16px 12px;
+    padding: 20px 12px;
     min-height: 100px;
   }
 
-  .dropContent h3 {
-    font-size: 1rem;
+  .uploadIcon {
+    width: 40px;
+    height: 40px;
   }
 
-  .dropContent p {
-    font-size: 0.875rem;
+  .uploadIcon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .imageIcon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .imageIcon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .dropContent h3 {
+    font-size: 14px;
+  }
+
+  .fileSelected {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .thumbnailSelected {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
   }
 
   .genreButtons {
@@ -590,70 +514,62 @@
   }
 
   .genreButton {
-    font-size: 0.75rem;
+    font-size: 12px;
     padding: 5px 10px;
   }
 
   .submitButton {
-    padding: 12px 24px;
-    font-size: 0.875rem;
-    min-width: 140px;
+    padding: 10px 20px;
+    font-size: 13px;
   }
 }
 
-/* Focus and accessibility */
+@media (max-width: 480px) {
+  .title {
+    font-size: 18px;
+  }
+
+  .uploadCard {
+    padding: 16px;
+  }
+
+  .dropZone {
+    padding: 20px 10px;
+    min-height: 100px;
+  }
+
+  .thumbnailDropZone {
+    padding: 16px 10px;
+    min-height: 80px;
+  }
+
+  .dropContent h3 {
+    font-size: 13px;
+  }
+
+  .dropContent p {
+    font-size: 12px;
+  }
+
+  .genreButton {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+
+  .submitButton {
+    padding: 10px 16px;
+    font-size: 13px;
+    min-width: 120px;
+  }
+}
+
+/* Focus accessibility */
 .input:focus,
 .textarea:focus,
-.select:focus,
 .submitButton:focus,
 .browseLink:focus,
-.removeFile:focus {
-  outline: 2px solid #667eea;
+.removeFile:focus,
+.genreButton:focus {
+  outline: 2px solid #1a73e8;
   outline-offset: 2px;
-}
-
-/* Smooth transitions */
-* {
-  transition: all 0.3s ease;
-}
-
-/* Form validation styles */
-.input:invalid {
-  border-color: #e53e3e;
-}
-
-.input:valid {
-  border-color: #48bb78;
-}
-
-/* Loading states */
-.submitButton:disabled .spinner {
-  animation: spin 1s linear infinite;
-}
-
-/* Hover effects */
-.section:hover .sectionTitle {
-  color: #667eea;
-}
-
-/* File type indicators */
-.dropZone[data-file-type="video"] {
-  border-color: #667eea;
-}
-
-/* Success states */
-.hasFile .fileIcon {
-  background: linear-gradient(135deg, #48bb78, #38a169);
-}
-
-/* Error states */
-.error {
-  border-color: #e53e3e;
-  background: rgba(229, 62, 62, 0.05);
-}
-
-.errorMessage {
-  color: #e53e3e;
-  font-size: 0.875rem;
-  margin-top: 4px;
 }

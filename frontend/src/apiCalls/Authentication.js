@@ -40,9 +40,10 @@ export const logoutCall=async ()=> {
         headers:{
             "content-type":"application/json"
         },
+        credentials:'include'
     });
     let response=await res.json();
-    if(res.success) {
+    if(res.ok) {
         return {
             success:true,
             msg:response.message
@@ -51,5 +52,23 @@ export const logoutCall=async ()=> {
     return {
         success:false,
         msg:response.error
+    }
+}
+
+// Check if user is authenticated by calling /auth/me
+export const checkAuthCall = async () => {
+    try {
+        let res = await fetch('http://localhost:3000/auth/me', {
+            method: 'GET',
+            headers: {
+                "content-type": "application/json"
+            },
+            credentials: 'include'
+        });
+        let response = await res.json();
+        return response; // { success: true/false, user: { email, name } }
+    } catch (error) {
+        console.error('Auth check failed:', error);
+        return { success: false, user: null };
     }
 }

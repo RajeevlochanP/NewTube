@@ -29,10 +29,12 @@ const userSlice=createSlice({
     name:'user',
     reducers:{
         setUser(state,action) {
-            state.userId=action.payload.userId
+            state.userId=action.payload.userId || '';
+            state.username=action.payload.name || action.payload.username || '';
+            state.email=action.payload.email || '';
         },
         setProfile(state,action) {
-            state.username=action.payload.username || '';
+            state.username=action.payload.username || action.payload.name || '';
             state.email=action.payload.email || '';
             state.joinDate=action.payload.joinDate || '';
             state.avatar=action.payload.avatar || '';
@@ -42,6 +44,7 @@ const userSlice=createSlice({
             state.username=action.payload.username;
         },
         clearProfile(state) {
+            state.userId='';
             state.username='';
             state.email='';
             state.joinDate='';

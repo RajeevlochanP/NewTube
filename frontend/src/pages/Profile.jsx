@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 import styles from '../styles/Profile.module.css';
 import { fetchUserProfile, updatePassword, updateUserProfile } from '../apiCalls/Profile';
 import { userActions } from '../store';
@@ -25,13 +23,6 @@ const Profile = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   useEffect(() => {
-    AOS.init({
-      duration: 600,
-      easing: 'ease-out-cubic',
-      once: true,
-      offset: 100,
-    });
-
     // Fetch profile data only if not already in store
     const loadProfile = async () => {
       if (!userStore.profileFetched) {
@@ -39,6 +30,7 @@ const Profile = () => {
         setIsLoading(true);
         try {
           let data = await fetchUserProfile();
+        console.log(data);
           data = data.userDetails;
           dispatch(userActions.setProfile({
             username: data.name,
@@ -156,7 +148,7 @@ const Profile = () => {
 
     <div className={styles.container}>
       {/* Header */}
-      <div className={styles.header} data-aos="fade-down">
+      <div className={styles.header}>
         <div className={styles.headerContent}>
           <h1 className={styles.headerTitle}>Profile Settings</h1>
           <p className={styles.headerSubtitle}>Manage your account information and preferences</p>
@@ -166,7 +158,7 @@ const Profile = () => {
       {/* Main Content */}
       <div className={styles.main}>
         {/* Profile Card */}
-        <div className={styles.profileCard} data-aos="fade-up" data-aos-delay="200">
+        <div className={styles.profileCard}>
           <div className={styles.profileHeader}>
             <div className={styles.avatarContainer}>
               <img src={userStore.avatar || 'https://via.placeholder.com/150'} alt="Profile" className={styles.avatar} />
@@ -214,7 +206,7 @@ const Profile = () => {
         {/* Settings Cards */}
         <div className={styles.settingsGrid}>
           {/* Change Password Card */}
-          <div className={styles.settingsCard} data-aos="fade-up" data-aos-delay="300">
+          <div className={styles.settingsCard}>
             <div className={styles.cardHeader}>
               <div className={styles.cardIcon}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -288,7 +280,7 @@ const Profile = () => {
           </div>
 
           {/* Account Settings Card */}
-          <div className={styles.settingsCard} data-aos="fade-up" data-aos-delay="400">
+          <div className={styles.settingsCard}>
             <div className={styles.cardHeader}>
               <div className={styles.cardIcon}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -305,7 +297,7 @@ const Profile = () => {
           </div>
 
           {/* Logout Card */}
-          <div className={styles.settingsCard} data-aos="fade-up" data-aos-delay="500">
+          <div className={styles.settingsCard}>
             <div className={styles.cardHeader}>
               <div className={`${styles.cardIcon} ${styles.dangerIcon}`}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -331,8 +323,8 @@ const Profile = () => {
 
       {/* Logout Confirmation Modal */}
       {showLogoutModal && (
-        <div className={styles.modalOverlay} data-aos="fade-in">
-          <div className={styles.modal} data-aos="zoom-in" data-aos-delay="100">
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
             <div className={styles.modalHeader}>
               <h3 className={styles.modalTitle}>Confirm Sign Out</h3>
             </div>

@@ -10,14 +10,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
-  height: 64px;
+  padding: 0 16px;
+  height: 56px;
   background-color: #ffffff;
   border-bottom: 1px solid #e0e0e0;
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .headerLeft {
@@ -36,7 +35,6 @@
   font-weight: bold;
   color: #ff0000;
   text-decoration: none;
-  letter-spacing: -0.5px;
 }
 
 .headerCenter {
@@ -55,32 +53,29 @@
 
 .searchInput {
   flex: 1;
-  padding: 12px 16px;
-  border: 1px solid #cccccc;
-  border-radius: 20px 0 0 20px;
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  border-radius: 2px 0 0 2px;
   outline: none;
   font-size: 16px;
-  background-color: #ffffff;
-  transition: border-color 0.2s ease;
+  background-color: #fff;
 }
 
 .searchInput:focus {
-  border: none;
-  outline: none;
+  border-color: #1a73e8;
 }
 
 .searchButton {
-  padding: 12px 20px;
+  padding: 8px 24px;
   background-color: #f8f8f8;
-  border: 1px solid #cccccc;
+  border: 1px solid #ccc;
   border-left: none;
-  border-radius: 0 20px 20px 0;
+  border-radius: 0 2px 2px 0;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #606060;
-  transition: background-color 0.2s ease;
 }
 
 .searchButton:hover {
@@ -103,71 +98,67 @@
 .navLink {
   color: #606060;
   text-decoration: none;
+  font-size: 14px;
   font-weight: 500;
   padding: 8px 12px;
-  border-radius: 4px;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  border-radius: 2px;
 }
 
 .navLink:hover {
   background-color: #f0f0f0;
-  color: #000000;
+  color: #0f0f0f;
 }
 
 .signInButton {
-  background-color: #065fd4;
-  color: #ffffff;
-  border: none;
+  background-color: transparent;
+  color: #1a73e8;
+  border: 1px solid #1a73e8;
   padding: 8px 16px;
-  border-radius: 18px;
+  border-radius: 2px;
+  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
 .signInButton:hover {
-  background-color: #0553c2;
+  background-color: #def1ff;
 }
 
 .signOutButton {
-  background-color: #ff0000;
-  color: #ffffff;
-  border: none;
+  background-color: transparent;
+  color: #606060;
+  border: 1px solid #ccc;
   padding: 8px 16px;
-  border-radius: 18px;
+  border-radius: 2px;
+  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
 .signOutButton:hover {
-  background-color: #e60000;
+  background-color: #f0f0f0;
 }
 
 /* Main Content */
 .main {
   padding: 24px;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
 .videoGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
 }
 
 .videoCard {
-  background-color: #ffffff;
-  border-radius: 8px;
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: #fff;
   cursor: pointer;
 }
 
 .videoCard:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  opacity: 0.9;
 }
 
 .thumbnailContainer {
@@ -175,29 +166,25 @@
   width: 100%;
   aspect-ratio: 16/9;
   overflow: hidden;
+  border-radius: 8px;
 }
 
 .thumbnail {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.2s ease;
-}
-
-.videoCard:hover .thumbnail {
-  transform: scale(1.05);
 }
 
 .videoInfo {
-  padding: 16px;
+  padding: 12px 0;
 }
 
 .videoTitle {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
   color: #0f0f0f;
   margin: 0 0 8px 0;
-  line-height: 1.3;
+  line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -205,16 +192,15 @@
 }
 
 .channelName {
-  font-size: 14px;
+  font-size: 12px;
   color: #606060;
   margin: 0 0 4px 0;
-  font-weight: 500;
 }
 
 .videoMeta {
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 12px;
   color: #606060;
   gap: 4px;
 }
@@ -226,8 +212,7 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .header {
-    padding: 0 16px;
-    height: 56px;
+    padding: 0 12px;
   }
 
   .headerCenter {
@@ -235,12 +220,12 @@
   }
 
   .navigation {
-    gap: 12px;
+    gap: 8px;
   }
 
   .navLink {
     padding: 6px 8px;
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .main {
@@ -248,20 +233,17 @@
   }
 
   .videoGrid {
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 16px;
-  }
-
-  .logoText {
-    font-size: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
   }
 }
 
 @media (max-width: 480px) {
   .header {
-    flex-direction: column;
+    flex-wrap: wrap;
     height: auto;
-    padding: 12px 16px;
+    padding: 8px 12px;
+    gap: 8px;
   }
 
   .headerLeft,
@@ -271,44 +253,26 @@
 
   .headerCenter {
     width: 100%;
-    margin: 12px 0 0 0;
+    margin: 8px 0 0 0;
+    order: 3;
   }
 
   .navigation {
-    margin-top: 12px;
-    justify-content: center;
+    margin-top: 0;
   }
 
   .videoGrid {
     grid-template-columns: 1fr;
   }
-
-  .searchForm {
-    max-width: none;
-  }
 }
 
-/* Focus and accessibility */
+/* Focus accessibility */
 .navLink:focus,
 .signInButton:focus,
 .signOutButton:focus,
 .searchInput:focus,
-.searchButton:focus {
-  outline: 2px solid #065fd4;
-  outline-offset: 2px;
-}
-
+.searchButton:focus,
 .videoCard:focus {
-  outline: 2px solid #065fd4;
+  outline: 2px solid #1a73e8;
   outline-offset: 2px;
-}
-
-/* Loading states */
-.thumbnail {
-  background-color: #f0f0f0;
-}
-
-.videoTitle:empty::before {
-  content: "Loading...";
-  color: #606060;
 }

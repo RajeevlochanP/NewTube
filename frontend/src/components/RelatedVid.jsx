@@ -1,13 +1,9 @@
 import React from 'react'
 import styles from '../styles/Player.module.css'
 
-function RelatedVid({video,index}) {
+function RelatedVid({ video, index }) {
     return (
-        <div
-            className={styles.relatedVideo}
-            data-aos="fade-left"
-            data-aos-delay={index * 100}
-        >
+        <div className={styles.relatedVideo}>
             <div className={styles.relatedThumbnail}>
                 <img src={video.thumbnail} alt={video.title} />
                 <span className={styles.relatedDuration}>{video.duration}</span>

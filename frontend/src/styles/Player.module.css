@@ -3,11 +3,11 @@
   width: 100vw;
   min-height: 100vh;
   background-color: #f9f9f9;
-  padding: 20px 0px;
+  padding: 24px;
 }
 
 .mainContent {
-  max-width: 1400px;
+  max-width: 1280px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 400px;
@@ -16,10 +16,9 @@
 
 /* Video Section */
 .videoSection {
-  background: white;
-  border-radius: 12px;
+  background: #fff;
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .videoPlayer {
@@ -27,15 +26,13 @@
   width: 100%;
   aspect-ratio: 16/9;
   background: #000;
-  border-radius: 8px;
-  overflow: hidden;
   cursor: pointer;
 }
 
 .video {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
 }
 
@@ -45,61 +42,54 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-  padding: 20px 16px 16px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  padding: 16px 12px 12px;
   opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
+  transition: opacity 0.2s ease;
 }
 
 .showControls {
   opacity: 1;
-  pointer-events: all;
 }
 
 .videoPlayer:hover .videoControls {
   opacity: 1;
-  pointer-events: all;
 }
 
 /* Progress Bar */
 .progressContainer {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .progressBar {
   width: 100%;
-  height: 6px;
+  height: 4px;
   background: rgba(255, 255, 255, 0.3);
-  border-radius: 3px;
+  border-radius: 2px;
   cursor: pointer;
-  position: relative;
-  transition: height 0.2s ease;
 }
 
 .progressBar:hover {
-  height: 8px;
+  height: 6px;
 }
 
 .progressFilled {
   height: 100%;
   background: #ff0000;
-  border-radius: 3px;
-  transition: width 0.1s ease;
+  border-radius: 2px;
   position: relative;
 }
 
 .progressThumb {
   position: absolute;
   top: 50%;
-  width: 14px;
-  height: 14px;
+  right: 0;
+  width: 12px;
+  height: 12px;
   background: #ff0000;
   border-radius: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateY(-50%);
   opacity: 0;
-  transition: opacity 0.2s ease;
-  pointer-events: none;
 }
 
 .progressBar:hover .progressThumb {
@@ -117,23 +107,21 @@
 .rightControls {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 /* Control Buttons */
 .controlButton {
   background: none;
   border: none;
-  color: white;
+  color: #fff;
   cursor: pointer;
-  padding: 8px;
-  border-radius: 4px;
+  padding: 6px;
+  border-radius: 2px;
   display: flex;
   align-items: center;
   gap: 4px;
-  transition: background-color 0.2s ease;
   font-size: 14px;
-  font-weight: 500;
 }
 
 .controlButton:hover {
@@ -149,7 +137,7 @@
 .volumeContainer {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .volumeSlider {
@@ -158,59 +146,38 @@
 }
 
 .volumeInput {
-  width: 80px;
-  height: 4px;
+  width: 60px;
+  height: 3px;
   background: rgba(255, 255, 255, 0.3);
   outline: none;
   border-radius: 2px;
   cursor: pointer;
   -webkit-appearance: none;
-  appearance: none;
-}
-
-.volumeInput::-webkit-slider-track {
-  width: 100%;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 2px;
 }
 
 .volumeInput::-webkit-slider-thumb {
   -webkit-appearance: none;
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  background: #ff0000;
+  width: 12px;
+  height: 12px;
+  background: #fff;
   border-radius: 50%;
   cursor: pointer;
-  border: 2px solid white;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 .volumeInput::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  background: #ff0000;
+  width: 12px;
+  height: 12px;
+  background: #fff;
   border-radius: 50%;
   cursor: pointer;
-  border: 2px solid white;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-}
-
-.volumeInput::-moz-range-track {
-  height: 4px;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 2px;
   border: none;
 }
 
 /* Time Display */
 .timeDisplay {
-  color: white;
-  font-size: 14px;
-  font-weight: 500;
-  font-family: 'Courier New', monospace;
-  min-width: 100px;
+  color: #fff;
+  font-size: 12px;
+  font-family: 'Roboto', sans-serif;
 }
 
 /* Quality Controls */
@@ -220,19 +187,18 @@
 
 .qualityText {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .qualityMenu {
   position: absolute;
   bottom: 100%;
   right: 0;
-  background: rgba(0, 0, 0, 0.95);
-  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.9);
+  border-radius: 4px;
   padding: 8px 0;
   margin-bottom: 8px;
   min-width: 80px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .qualityOption {
@@ -240,12 +206,11 @@
   width: 100%;
   background: none;
   border: none;
-  color: white;
+  color: #fff;
   padding: 8px 16px;
   text-align: left;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s ease;
+  font-size: 13px;
 }
 
 .qualityOption:hover {
@@ -253,26 +218,21 @@
 }
 
 .activeQuality {
-  background: rgba(255, 0, 0, 0.2);
   color: #ff0000;
-}
-
-.activeQuality:hover {
-  background: rgba(255, 0, 0, 0.3);
 }
 
 /* Video Info */
 .videoInfo {
-  padding: 20px;
+  padding: 16px;
   border-bottom: 1px solid #e0e0e0;
 }
 
 .videoTitle {
-  font-size: 1.5rem;
+  font-size: 18px;
   font-weight: 600;
   color: #0f0f0f;
-  margin-bottom: 12px;
-  line-height: 1.3;
+  margin-bottom: 8px;
+  line-height: 1.4;
 }
 
 .videoMeta {
@@ -280,13 +240,13 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 12px;
 }
 
 .viewsAndDate {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   color: #606060;
   font-size: 14px;
 }
@@ -303,8 +263,8 @@
 .actionButton {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
+  gap: 6px;
+  padding: 8px 12px;
   background: #f2f2f2;
   border: none;
   border-radius: 18px;
@@ -312,16 +272,15 @@
   font-weight: 500;
   color: #0f0f0f;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .actionButton:hover {
-  background: #e0e0e0;
+  background: #e5e5e5;
 }
 
 .actionButton.liked {
-  background: #065fd4;
-  color: white;
+  background: #ff0000;
+  color: #fff;
 }
 
 .actionButton svg {
@@ -334,7 +293,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 16px;
   border-bottom: 1px solid #e0e0e0;
 }
 
@@ -352,8 +311,8 @@
 }
 
 .channelName {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
   color: #0f0f0f;
   margin: 0;
 }
@@ -365,49 +324,45 @@
 }
 
 .subscribeButton {
-  background: #cc0000;
-  color: white;
+  background: #0f0f0f;
+  color: #fff;
   border: none;
   padding: 10px 16px;
   border-radius: 18px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.2s ease;
 }
 
 .subscribeButton:hover {
-  background: #b30000;
+  background: #272727;
 }
 
 .subscribeButton.subscribed {
-  background: #606060;
-}
-
-.subscribeButton.subscribed:hover {
-  background: #404040;
+  background: #f2f2f2;
+  color: #0f0f0f;
 }
 
 /* Description */
 .description {
-  padding: 20px;
+  padding: 16px;
   border-bottom: 1px solid #e0e0e0;
 }
 
 .descriptionContent {
-  background: #f9f9f9;
-  padding: 16px;
+  background: #f2f2f2;
+  padding: 12px;
   border-radius: 8px;
 }
 
 .descriptionText {
   color: #0f0f0f;
-  line-height: 1.6;
+  line-height: 1.5;
   margin: 0;
   white-space: pre-line;
-  max-height: 80px;
+  font-size: 14px;
+  max-height: 60px;
   overflow: hidden;
-  transition: max-height 0.3s ease;
 }
 
 .descriptionText.expanded {
@@ -417,7 +372,7 @@
 .showMoreButton {
   background: none;
   border: none;
-  color: #065fd4;
+  color: #0f0f0f;
   font-weight: 500;
   cursor: pointer;
   margin-top: 8px;
@@ -430,16 +385,16 @@
 
 /* Comments Section */
 .commentsSection {
-  padding: 20px;
+  padding: 16px;
 }
 
 .commentsHeader {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .commentsTitle {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 500;
   color: #0f0f0f;
   margin: 0;
 }
@@ -448,7 +403,7 @@
 .addComment {
   display: flex;
   gap: 12px;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .commentAvatar {
@@ -470,11 +425,10 @@
   border-bottom: 1px solid #ccc;
   font-size: 14px;
   outline: none;
-  transition: border-color 0.2s ease;
 }
 
 .commentInput:focus {
-  border-bottom-color: #065fd4;
+  border-bottom-color: #0f0f0f;
 }
 
 .commentActions {
@@ -492,7 +446,6 @@
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .cancelButton {
@@ -505,12 +458,12 @@
 }
 
 .commentButton {
-  background: #065fd4;
-  color: white;
+  background: #0f0f0f;
+  color: #fff;
 }
 
 .commentButton:hover:not(:disabled) {
-  background: #0553c2;
+  background: #272727;
 }
 
 .commentButton:disabled {
@@ -559,12 +512,6 @@
   margin: 0 0 8px 0;
 }
 
-.commentActions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
 .commentLikeButton,
 .commentReplyButton {
   display: flex;
@@ -577,7 +524,6 @@
   cursor: pointer;
   padding: 4px 8px;
   border-radius: 18px;
-  transition: background 0.2s ease;
 }
 
 .commentLikeButton:hover,
@@ -592,20 +538,19 @@
 
 /* Sidebar */
 .sidebar {
-  background: white;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
   height: fit-content;
   position: sticky;
-  top: 20px;
+  top: 24px;
 }
 
 .sidebarTitle {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 500;
   color: #0f0f0f;
-  margin: 0 0 20px 0;
+  margin: 0 0 16px 0;
 }
 
 .relatedVideos {
@@ -616,11 +561,8 @@
 
 .relatedVideo {
   display: flex;
-  gap: 12px;
-  padding: 8px;
-  border-radius: 8px;
+  gap: 8px;
   cursor: pointer;
-  transition: background 0.2s ease;
 }
 
 .relatedVideo:hover {
@@ -629,9 +571,9 @@
 
 .relatedThumbnail {
   position: relative;
-  width: 120px;
+  width: 168px;
   aspect-ratio: 16/9;
-  border-radius: 6px;
+  border-radius: 8px;
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -647,10 +589,10 @@
   bottom: 4px;
   right: 4px;
   background: rgba(0, 0, 0, 0.8);
-  color: white;
+  color: #fff;
   padding: 2px 4px;
   border-radius: 2px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
 }
 
@@ -692,19 +634,15 @@
     gap: 20px;
   }
   
-  .sidebar {
-    padding: 16px;
-  }
-  
   .relatedThumbnail {
-    width: 100px;
+    width: 140px;
   }
 }
 
 @media (max-width: 968px) {
   .mainContent {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 16px;
   }
   
   .sidebar {
@@ -713,7 +651,7 @@
   
   .relatedVideos {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 16px;
   }
   
@@ -723,7 +661,6 @@
   
   .relatedThumbnail {
     width: 100%;
-    aspect-ratio: 16/9;
   }
 }
 
@@ -736,38 +673,34 @@
     display: none;
   }
   
-  .volumeContainer {
-    gap: 8px;
-  }
-  
   .videoInfo {
-    padding: 16px;
+    padding: 12px;
   }
   
   .videoTitle {
-    font-size: 1.25rem;
+    font-size: 16px;
   }
   
   .videoMeta {
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
   }
   
   .actionButtons {
     flex-wrap: wrap;
+    width: 100%;
   }
   
   .channelInfo {
-    padding: 16px;
+    padding: 12px;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
   }
   
-  .description {
-    padding: 16px;
-  }
-  
-  .commentsSection {
-    padding: 16px;
+  .subscribeButton {
+    width: 100%;
+    text-align: center;
   }
   
   .relatedVideos {
@@ -776,53 +709,15 @@
 }
 
 @media (max-width: 480px) {
-  .leftControls {
-    gap: 8px;
-  }
-  
-  .rightControls {
-    gap: 8px;
-  }
-  
-  .controlButton {
-    padding: 6px;
-  }
-  
-  .controlButton svg {
-    width: 18px;
-    height: 18px;
-  }
-  
-  .timeDisplay {
-    font-size: 12px;
-    min-width: 80px;
-  }
-  
-  .actionButtons {
-    width: 100%;
-    justify-content: space-between;
-  }
-  
   .actionButton {
     flex: 1;
     justify-content: center;
-    padding: 8px 12px;
+    padding: 8px;
     font-size: 12px;
-  }
-  
-  .channelInfo {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-  
-  .subscribeButton {
-    align-self: stretch;
-    text-align: center;
   }
 }
 
-/* Focus and accessibility */
+/* Focus accessibility */
 .actionButton:focus,
 .subscribeButton:focus,
 .showMoreButton:focus,
@@ -830,70 +725,8 @@
 .cancelButton:focus,
 .commentButton:focus,
 .commentLikeButton:focus,
-.commentReplyButton:focus {
-  outline: 2px solid #065fd4;
-  outline-offset: 2px;
-}
-
+.commentReplyButton:focus,
 .relatedVideo:focus {
-  outline: 2px solid #065fd4;
+  outline: 2px solid #1a73e8;
   outline-offset: 2px;
-  background: #f9f9f9;
-}
-
-/* Smooth transitions */
-* {
-  transition: all 0.2s ease;
-}
-
-/* Loading states */
-.video {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200px 100%;
-}
-
-/* Hover effects */
-.relatedVideo:hover .relatedTitle {
-  color: #065fd4;
-}
-
-/* Animation for new comments */
-@keyframes slideInComment {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.comment:first-child {
-  animation: slideInComment 0.3s ease-out;
-}
-
-/* Better scrollbar for comments */
-.commentsList {
-  max-height: 600px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #ccc transparent;
-}
-
-.commentsList::-webkit-scrollbar {
-  width: 6px;
-}
-
-.commentsList::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.commentsList::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 3px;
-}
-
-.commentsList::-webkit-scrollbar-thumb:hover {
-  background: #999;
 }

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import styles from '../styles/Auth.module.css';
-import { useSelector,useDispatch } from 'react-redux';
-import {authActions} from '../store/index.js'
+import { useDispatch } from 'react-redux';
+import { authActions, userActions } from '../store/index.js'
 import { useNavigate } from 'react-router-dom';
-import { loginCall,signupCall } from '../apiCalls/Authentication.js';
+import { loginCall, signupCall } from '../apiCalls/Authentication.js';
 import toast from 'react-hot-toast';
 
 const Auth = () => {
@@ -17,8 +17,8 @@ const Auth = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  const dispatch=useDispatch();
-  const navigate=useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -32,39 +32,55 @@ const Auth = () => {
     e.preventDefault();
     
     if (!isLogin && formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match!');
+      toast.error('Passwords do not match!');
       return;
     }
 
-    if(isLogin) {   // Login flow
+    if (isLogin) {
+      // Login flow
       setIsLoading(true);
-      let response=await loginCall(formData.email , formData.password);
+      let response = await loginCall(formData.email, formData.password);
       setIsLoading(false);
 
-      if(response.success) {
-        localStorage.setItem("accessToken" , response.token);
+      if (response.success) {
         dispatch(authActions.login());
+        if (response.user) {
+          dispatch(userActions.setUser({
+            name: response.user.name,
+            email: response.user.email
+          }));
+        }
+        toast.success(response.msg || 'Login successful');
         navigate('/');
-        toast.success(res.msg);
-        return ;
+        return;
       }
-      toast.error(res.msg);
-      return ;
-    }
-
-    else { // Signup flow-------------------------------->
+      toast.error(response.msg || 'Login failed');
+      return;
+    } else {
+      // Signup flow
       setIsLoading(true);
-      let res=await signupCall(formData.firstName+" "+formData.lastName,formData.email , formData.password , formData.confirmPassword);
+      let res = await signupCall(
+        formData.firstName + " " + formData.lastName,
+        formData.email,
+        formData.password,
+        formData.confirmPassword
+      );
       setIsLoading(false);
 
-      if(res.success) {
+      if (res.success) {
         dispatch(authActions.login());
+        if (res.user) {
+          dispatch(userActions.setUser({
+            name: res.user.name,
+            email: res.user.email
+          }));
+        }
+        toast.success(res.msg || 'Account created successfully');
         navigate('/');
-        toast.success(res.msg);
-        return ;
+        return;
       }
-      toast.error(res.msg);
-      return ;
+      toast.error(res.msg || 'Signup failed');
+      return;
     }
   };
 
@@ -81,21 +97,6 @@ const Auth = () => {
 
   return (
     <div className={styles.container}>
-      {/* Animated Background Bubbles */}
-      <div className={styles.bubbles}>
-        {[...Array(20)].map((_, index) => (
-          <div 
-            key={index} 
-            className={styles.bubble}
-            style={{
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 15}s`,
-              animationDuration: `${15 + Math.random() * 10}s`
-            }}
-          />
-        ))}
-      </div>
-
       {/* Auth Card */}
       <div className={styles.authCard}>
         <div className={styles.header}>

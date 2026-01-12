@@ -4,6 +4,7 @@ export const fetchUserProfile = async () => {
             method: 'GET',
             credentials: 'include', // include cookies for authentication
         });
+        console.log(response);
         const data = await response.json();
         console.log(data);
         return data;

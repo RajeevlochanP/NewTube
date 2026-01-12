@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 import styles from '../styles/Player.module.css';
 import RelatedVid from '../components/RelatedVid';
 import CommentsBox from '../components/CommentsBox';
@@ -13,19 +11,11 @@ import toast from 'react-hot-toast';
 
 const Player = () => { 
   const [video, setVideo] = useState(null);
-  // const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const { id } = useParams();
 
   useEffect(() => {
-    AOS.init({
-      duration: 600,
-      easing: 'ease-out-cubic',
-      once: true,
-      offset: 50,
-    });
-
     async function loadVideoById(id) {
       try {
         const data = await getVideosById(id);
@@ -33,7 +23,6 @@ const Player = () => {
 
         if (data.success) {
           setVideo(data.video);
-          // setComments(data.video.comments || []);
         } else {
           toast.error(data.error);
         }

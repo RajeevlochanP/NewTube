@@ -1,4 +1,5 @@
-import { loginService, signupService } from "../services/auth.service.js";
+import { get } from "node:http";
+import { loginService, signupService,getUserDetailsService } from "../services/auth.service.js";
 
 export const signup = async (req, res) => {
     const { name,email, password, confirmPassword } = req.body;
@@ -45,4 +46,25 @@ export const login = async (req, res) => {
             token: response.token,
         });
     }
+}
+
+export const getMyDetails = async (req, res) => {
+    const user = req.user;
+    if(!user){
+        return res.status(404).json({
+            success:false,
+            message:"User not found"
+        });
+    }
+    const response = await getUserDetailsService(user._id);
+    if(!response.success){
+        return res.status(500).json({
+            success:false,
+            message:"Could not fetch user details"
+        });
+    }
+    return res.status(200).json({
+        success:true,
+        user: response.user
+    });
 }
