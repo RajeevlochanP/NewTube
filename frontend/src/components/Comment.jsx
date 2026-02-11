@@ -23,7 +23,7 @@ function Comment({ comment }) {
     }
     return (
         <div className={styles.comment}>
-            <img src={"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"} alt={comment.author} className={styles.commentAvatar} />
+            <img src={import.meta.env.VITE_PROFILE_HOLDER_URL} alt={comment.author} className={styles.commentAvatar} />
             <div className={styles.commentContent}>
                 <div className={styles.commentHeader}>
                     <span className={styles.commentAuthor}>{comment.userId?.name}</span>

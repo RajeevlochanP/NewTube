@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Profile.module.css';
 import { fetchUserProfile, updatePassword, updateUserProfile } from '../apiCalls/Profile';
-import { userActions } from '../store';
+import { logoutCall } from '../apiCalls/Authentication';
+import { userActions, authActions } from '../store';
 
 const Profile = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userStore = useSelector(state => state.user);
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
@@ -61,21 +64,24 @@ const Profile = () => {
     if (newUsername.trim() && newUsername !== userStore.username) {
       setIsSavingUsername(true);
       try {
-        // TODO: Add API call to update username on server
         const response = await updateUserProfile(newUsername.trim());
         if (!response.success) {
           alert(`Error: ${response.message}`);
+          setIsSavingUsername(false);
           return;
         }
         dispatch(userActions.updateUsername({ username: newUsername.trim() }));
+        setIsEditingUsername(false);
+        alert('Username updated successfully!');
       } catch (err) {
         console.error('Error updating username:', err);
         alert('Failed to update username');
       } finally {
         setIsSavingUsername(false);
       }
+    } else {
+      setIsEditingUsername(false);
     }
-    setIsEditingUsername(false);
   };
 
   const handleUsernameCancel = () => {
@@ -98,7 +104,6 @@ const Profile = () => {
       alert('Password must be at least 6 characters long!');
       return;
     }
-    // Simulate password change
     const data = await updatePassword(passwordData.currentPassword, passwordData.newPassword);
     if (!data.success) {
       alert(`Error: ${data.message}`);
@@ -109,16 +114,18 @@ const Profile = () => {
     setIsChangingPassword(false);
   };
 
-  const handleLogout = () => {
-    // send logout request to server 
-    localStorage.removeItem('token');
+  const handleLogout = async () => {
+    try {
+      await logoutCall();
+    } catch (err) {
+      console.error('Logout API error:', err);
+    }
+    dispatch(authActions.logout());
     dispatch(userActions.clearProfile());
-    alert('Logged out successfully!');
     setShowLogoutModal(false);
-    // Redirect to login page or home page
+    navigate('/');
   };
 
-  // Show loading state while fetching
   if (isLoading && isFetching) {
     return (
       <div className={styles.container}>
@@ -130,7 +137,6 @@ const Profile = () => {
     );
   }
 
-  // Show error state if there's an error and no cached data
   if (error && !userStore.profileFetched) {
     return (
       <div className={styles.container}>
@@ -161,8 +167,8 @@ const Profile = () => {
         <div className={styles.profileCard}>
           <div className={styles.profileHeader}>
             <div className={styles.avatarContainer}>
-              <img src={userStore.avatar || 'https://via.placeholder.com/150'} alt="Profile" className={styles.avatar} />
-              <button className={styles.avatarEditButton}>
+              <img src={import.meta.env.VITE_PROFILE_HOLDER_URL} alt="Profile" className={styles.avatar} />
+              <button className={styles.avatarEditButton} onClick={handleUsernameEdit} title="Edit profile">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                   <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z" />

@@ -22,7 +22,6 @@ function Header() {
             toast.success('Signed out successfully');
             navigate('/');
         } catch (error) {
-            // Still logout on client side even if server call fails
             dispatch(authActions.logout());
             dispatch(userActions.clearProfile());
             toast.success('Signed out');

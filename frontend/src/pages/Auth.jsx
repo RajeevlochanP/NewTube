@@ -30,7 +30,7 @@ const Auth = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!isLogin && formData.password !== formData.confirmPassword) {
       toast.error('Passwords do not match!');
       return;
@@ -46,15 +46,16 @@ const Auth = () => {
         dispatch(authActions.login());
         if (response.user) {
           dispatch(userActions.setUser({
+            userId: response.user._id,
             name: response.user.name,
             email: response.user.email
           }));
         }
-        toast.success(response.msg || 'Login successful');
+        toast.success(response.message || 'Login successful');
         navigate('/');
         return;
       }
-      toast.error(response.msg || 'Login failed');
+      toast.error(response.error || 'Login failed');
       return;
     } else {
       // Signup flow
@@ -71,6 +72,7 @@ const Auth = () => {
         dispatch(authActions.login());
         if (res.user) {
           dispatch(userActions.setUser({
+            userId: res.user._id,
             name: res.user.name,
             email: res.user.email
           }));
@@ -104,8 +106,8 @@ const Auth = () => {
             {isLogin ? 'Welcome Back' : 'Create Account'}
           </h1>
           <p className={styles.subtitle}>
-            {isLogin 
-              ? 'Sign in to your account to continue' 
+            {isLogin
+              ? 'Sign in to your account to continue'
               : 'Join us and start sharing your videos'
             }
           </p>
@@ -201,8 +203,8 @@ const Auth = () => {
           )}
 
           {/* Submit Button */}
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className={styles.submitButton}
             disabled={isLoading}
           >
@@ -215,8 +217,8 @@ const Auth = () => {
               <>
                 {isLogin ? 'Sign In' : 'Create Account'}
                 <svg className={styles.buttonIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M5 12h14"/>
-                  <path d="M12 5l7 7-7 7"/>
+                  <path d="M5 12h14" />
+                  <path d="M12 5l7 7-7 7" />
                 </svg>
               </>
             )}
@@ -227,8 +229,8 @@ const Auth = () => {
         <div className={styles.footer}>
           <p className={styles.toggleText}>
             {isLogin ? "Don't have an account?" : "Already have an account?"}
-            <button 
-              type="button" 
+            <button
+              type="button"
               onClick={toggleAuthMode}
               className={styles.toggleButton}
             >
@@ -238,7 +240,7 @@ const Auth = () => {
         </div>
 
         {/* Social Login Options */}
-        <div className={styles.divider}>
+        {/* <div className={styles.divider}>
           <span className={styles.dividerText}>or continue with</span>
         </div>
 
@@ -258,7 +260,7 @@ const Auth = () => {
             </svg>
             Facebook
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

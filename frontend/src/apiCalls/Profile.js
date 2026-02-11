@@ -2,7 +2,7 @@ export const fetchUserProfile = async () => {
     try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/upload/myDetails`, {
             method: 'GET',
-            credentials: 'include', // include cookies for authentication
+            credentials: 'include',
         });
         console.log(response);
         const data = await response.json();
@@ -16,12 +16,13 @@ export const fetchUserProfile = async () => {
 
 export const updateUserProfile = async (name) => {
     try {
+        console.log("hii");
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/upload/updateProfile`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            credentials: 'include', // include cookies for authentication
+            credentials: 'include',
             body: JSON.stringify({ name }),
         });
         const data = await response.json();
@@ -40,7 +41,7 @@ export const updatePassword = async (currentPassword, newPassword) => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            credentials: 'include', // include cookies for authentication
+            credentials: 'include',
             body: JSON.stringify({ currentPassword, newPassword }),
         });
         const data = await response.json();

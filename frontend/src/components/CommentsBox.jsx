@@ -5,7 +5,6 @@ import AddComment from './AddComment';
 import Comment from './Comment';
 
 function CommentsBox({videoId, commentss}) {
-    // receive commets prop from player
     const [comments, setComments] = useState(commentss || []);
 
     return (
@@ -14,10 +13,8 @@ function CommentsBox({videoId, commentss}) {
                 <h3 className={styles.commentsTitle}>{comments.length} Comments</h3>
             </div>
 
-            {/* Add Comment */}
             <AddComment comments={comments} setComments={setComments} videoId={videoId}/>
 
-            {/* Comments List */}
             <div className={styles.commentsList}>
                 {comments.map((comment) => (
                     <Comment key={comment._id} comment={comment}/>

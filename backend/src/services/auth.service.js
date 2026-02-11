@@ -3,7 +3,6 @@ import { getUserByEmail, addUser, getUserById } from '../daos/user.dao.js';
 
 export const signupService = async (name,email, password) => {
     const user = await getUserByEmail(email);
-    // console.log("sdfjkk :");
     if (user.length!==0) {
         return { success: false, message: "Email already Exists" };
     }
@@ -12,7 +11,11 @@ export const signupService = async (name,email, password) => {
     const token=jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: '24h'
     });
-    return {success: true,token:token};
+    return {
+        success: true,
+        token: token,
+        user: { _id: newUser._id, name: newUser.name, email: newUser.email }
+    };
 }
 
 export const loginService = async (email, password) => {
@@ -20,18 +23,19 @@ export const loginService = async (email, password) => {
     if (user.length===0) {
         return { success: false, message: "No user exists for the given email" };
     }
-    // console.log(user);
-    // console.log(user[0].password);
     if (user[0].password === password) {
         const payload = {
             _id: user[0]._id,
         };
-        console.log(payload);
         const token = jwt.sign(payload, process.env.JWT_SECRET, {
             expiresIn: '24h'
         });
 
-        return { success: true, token };
+        return {
+            success: true,
+            token,
+            user: { _id: user[0]._id, name: user[0].name, email: user[0].email }
+        };
     } else {
         return { success: false, message: "Wrong password for the given email" };
     }

@@ -105,7 +105,7 @@ function VideoDetails({ videoId, likeStatus, description, title, channel, likesC
             {/* Channel Info */}
             <div className={styles.channelInfo}>
                 <div className={styles.channelDetails}>
-                    <img src={currentVideo.avatar} alt={currentVideo.channel} className={styles.channelAvatar} />
+                    <img src={import.meta.env.VITE_PROFILE_HOLDER_URL} alt={currentVideo.channel} className={styles.channelAvatar} />
                     <div className={styles.channelMeta}>
                         <h3 className={styles.channelName}>{currentVideo.channel}</h3>
                         {/* <p className={styles.subscriberCount}>{currentVideo.subscribers} subscribers</p> */}
