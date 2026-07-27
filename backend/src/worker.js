@@ -5,7 +5,6 @@ import { startVideoWorker } from "./workers/videoProcessor.js";
 
 dotenv.config();
 
-// Workers need the database to update statuses
 connectDB().then(() => {
     console.log("Database connected for Workers");
     startSQSPoller();

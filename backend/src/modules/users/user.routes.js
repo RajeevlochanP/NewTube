@@ -7,6 +7,5 @@ const router = express.Router();
 router.use(protect);
 
 router.get("/me", getMe);
-router.get("/me/videos", getMyVideos);
 
 export default router;

@@ -37,3 +37,10 @@ export const checkUserLikedVideo = async (userId, videoId) => {
   const like = await Likes.findOne({ user: userId, video: videoId });
   return !!like;
 };
+
+export const findVideosByUserId = async (userId) => {
+  return await Video.find({ uploadedBy: userId })
+    .populate("uploadedBy", "name email")
+    .sort({ uploadTime: -1 })
+    .lean();
+};

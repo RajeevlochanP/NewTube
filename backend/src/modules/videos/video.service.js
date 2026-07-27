@@ -7,6 +7,7 @@ import {
   getVideoById,
   findCommentsForVideo,
   checkUserLikedVideo,
+  findVideosByUserId,
 } from "./video.dao.js";
 
 // Initialize BullMQ Queue for video transcoding jobs
@@ -89,4 +90,9 @@ export const getVideoDetailsService = async (videoId, userId = null) => {
       isLiked,
     },
   };
+};
+
+export const getUserVideosService = async (userId) => {
+  const videos = await findVideosByUserId(userId);
+  return { success: true, status: 200, videos };
 };

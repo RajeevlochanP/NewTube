@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { initiateUploadService, getPublicFeedService, getVideoDetailsService } from "./video.service.js";
+import { initiateUploadService, getPublicFeedService, getVideoDetailsService,getUserVideosService } from "./video.service.js";
 
 export const initiateUpload = async (req, res) => {
   try {
@@ -70,6 +70,23 @@ export const getVideoDetails = async (req, res) => {
     });
   } catch (err) {
     console.error("Get Video Details Error:", err);
+    return res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};
+
+export const getVideosByUser = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const response = await getUserVideosService(userId);
+    if (!response.success) {
+      return res.status(response.status).json({ success: false, error: response.message });
+    }
+    return res.status(200).json({
+      success: true,
+      videos: response.videos,
+    });
+  } catch (err) {
+    console.error("Get My Videos Error:", err);
     return res.status(500).json({ success: false, error: "Internal server error" });
   }
 };
