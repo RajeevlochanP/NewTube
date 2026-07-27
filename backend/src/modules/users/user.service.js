@@ -1,4 +1,4 @@
-import { findUserById, findVideosByUserId } from "./user.dao.js";
+import { findUserById } from "./user.dao.js";
 
 export const getUserProfileService = async (userId) => {
   const userDetails = await findUserById(userId);

@@ -1,5 +1,5 @@
 import express from "express";
-import { getMe, getMyVideos } from "./user.controller.js";
+import { getMe } from "./user.controller.js";
 import { protect } from "../../middlewares/protect.js";
 
 const router = express.Router();

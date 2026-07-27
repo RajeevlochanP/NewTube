@@ -17,9 +17,6 @@ if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
 
 export const s3 = new S3Client(s3Config);
 
-/**
- * Generates an S3 Presigned URL for uploading a file directly from the frontend.
- */
 export const generatePresignedUrl = async (s3Key, contentType) => {
   const bucketName = process.env.AWS_S3_BUCKET_NAME || "newtube-bucket";
   const command = new PutObjectCommand({
@@ -34,9 +31,7 @@ export const generatePresignedUrl = async (s3Key, contentType) => {
   return { presignedUrl, publicUrl, s3Key };
 };
 
-/**
- * Uploads a local file to S3 (used by the background video processor worker for HLS files and thumbnails).
- */
+
 export const uploadToS3 = async (localFilePath, s3Key, mimeType) => {
   const bucketName = process.env.AWS_S3_BUCKET_NAME || "newtube-bucket";
   const fileStream = fs.createReadStream(localFilePath);
@@ -53,9 +48,6 @@ export const uploadToS3 = async (localFilePath, s3Key, mimeType) => {
   return `https://${bucketName}.s3.${s3Config.region}.amazonaws.com/${s3Key}`;
 };
 
-/**
- * Downloads a file from S3 to a local file path (used by the worker to download raw .mp4 for transcoding).
- */
 export const downloadFromS3 = async (s3Key, localFilePath) => {
   const bucketName = process.env.AWS_S3_BUCKET_NAME || "newtube-bucket";
   const command = new GetObjectCommand({
@@ -69,9 +61,6 @@ export const downloadFromS3 = async (s3Key, localFilePath) => {
   return localFilePath;
 };
 
-/**
- * Deletes an object from S3 (used by the worker to clean up the raw .mp4 after HLS transcoding).
- */
 export const deleteFromS3 = async (s3Key) => {
   const bucketName = process.env.AWS_S3_BUCKET_NAME || "newtube-bucket";
   const command = new DeleteObjectCommand({

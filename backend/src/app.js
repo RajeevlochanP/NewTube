@@ -1,16 +1,17 @@
 import express from "express";
 import cookieParser from "cookie-parser";
-import dotenv from "dotenv";
+import "dotenv/config"
 import connectDB from "./config/mongo.config.js";
 import authRoutes from "./modules/auth/auth.routes.js";
 import userRoutes from "./modules/users/user.routes.js";
 import videoRoutes from "./modules/videos/video.routes.js";
 import interactionRoutes from "./modules/interactions/interaction.routes.js";
 
-dotenv.config();
+// dotenv.config();
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 connectDB();

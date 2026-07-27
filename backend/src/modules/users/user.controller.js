@@ -1,4 +1,4 @@
-import { getUserProfileService, getUserVideosService } from "./user.service.js";
+import { getUserProfileService } from "./user.service.js";
 
 export const getMe = async (req, res) => {
   try {
