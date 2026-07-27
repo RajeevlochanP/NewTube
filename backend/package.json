@@ -1,5 +1,11 @@
 {
   "type": "module",
+  "scripts": {
+    "start:api": "node src/app.js",
+    "start:worker": "node src/worker.js",
+    "dev:api": "nodemon src/app.js",
+    "dev:worker": "nodemon src/worker.js"
+  },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1095.0",
     "@aws-sdk/client-sqs": "^3.1095.0",
