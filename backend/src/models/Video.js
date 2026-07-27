@@ -8,8 +8,6 @@ const videoSchema = new mongoose.Schema({
   uploadTime: { type: Date, default: Date.now, required: true },
 
   m3u8Path: String,
-  folderPath: String,
-
   description: String,
 
   // link to user
@@ -26,7 +24,6 @@ const videoSchema = new mongoose.Schema({
   likesCount: {
     type: Number,
     default: 0,
-    index: true, // optional for sorting most liked
     required: true,
   },
   commentsCount: {
@@ -35,30 +32,16 @@ const videoSchema = new mongoose.Schema({
     index: true,
     required: true,
   },
-  genre: [
-    {
-      type: String,
-      enum: ['Education',
-        'Entertainment',
-        'Music',
-        'Gaming',
-        'Technology',
-        'Sports',
-        'News',
-        'Comedy',
-        'Travel',
-        'Food',
-        'Lifestyle',
-        'Science',
-        'Art',
-        'Documentary',
-        'Other'],
-    },
-  ],
   thumbnailPath: {
     type: String,
     required: true,
     default: null,
+  },
+  status: {
+    type: String,
+    enum: ["processing", "ready", "failed"],
+    default: "processing",
+    required: true,
   },
 });
 
