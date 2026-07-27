@@ -1,41 +1,48 @@
 import express from "express";
-import jwt from "jsonwebtoken";
-import { connectDB } from "./src/config/mongo.config.js";
 import cors from "cors";
-import cookieParser from 'cookie-parser';
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import onlyLoggedInRouter from "./src/routes/onlyLoggedIn.js";
-import authRouter from "./src/routes/auth.js";
-import streamRouter from "./src/routes/stream.js";
-import dotenv from 'dotenv';
+import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
+import { connectDB } from "./src/config/mongo.config.js";
+import authRouter from "./src/modules/auth/auth.routes.js";
+import userRouter from "./src/modules/users/user.routes.js";
+import videoRouter from "./src/modules/videos/video.routes.js";
+import interactionRouter from "./src/modules/interactions/interaction.routes.js";
+import { startSQSPoller } from "./src/workers/sqsPoller.js";
+import { startVideoWorker } from "./src/workers/videoProcessor.js";
 
 dotenv.config();
+
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
+// Connect to MongoDB
 await connectDB();
 
-// body Parsing middleware
+// Middleware
 app.use(cookieParser());
-app.use(cors({
-  origin:'http://localhost:5173',
-  credentials:true
-}));
-app.use(express.json({ limit: "500mb" }));
-app.use(express.urlencoded({ extended: true, limit: "500mb" }));
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    credentials: true,
+  })
+);
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
-// Static files
-app.use("/public", express.static(path.join(__dirname, "public")));
+// Mount 3-Layer DDD Routes
+app.use("/auth", authRouter);
+app.use("/users", userRouter);
+app.use("/videos", videoRouter);
+app.use("/interactions", interactionRouter);
 
-//sending to corresponding router
-app.use("/upload",onlyLoggedInRouter);
-app.use("/auth",authRouter);
-app.use("/stream",streamRouter);
+// Start Background Workers
+try {
+  startSQSPoller();
+  startVideoWorker();
+} catch (workerErr) {
+  console.warn("Notice: Background workers could not start:", workerErr.message);
+}
 
 app.listen(port, () => {
-  console.log(`app listening on port http://localhost:${port}`);
+  console.log(`App listening on http://localhost:${port}`);
 });

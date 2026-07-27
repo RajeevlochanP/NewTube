@@ -1,30 +1,16 @@
-// this middleware checks whether user logged in or not also serializing all user details in  req.user
 import jwt from "jsonwebtoken";
 
-//will check whether req.token is valid and if yes serialize user details in req.user
-export const requireUser = (req, res, next) => {
-    jwt.verify(req.token, process.env.JWT_SECRET, (err, decoded) => {
-        if (err) {
-            console.log('ERROR: Could not verify token');
-            return res.sendStatus(403); // Forbidden
-        }
-        // console.log(decoded);
-        req.user = decoded;
-        // console.log("req.user: ",req.user);
-        next();
-    });
-};
+export const protect = (req, res, next) => {
+  const token = req.cookies?.token;
+  if (!token) {
+    return res.status(401).json({ success: false, error: "Authentication required" });
+  }
 
-
-//will serialize the token in req.token
-export const checkToken = (req, res, next) => {
-    const token = req.cookies.token;
-    // console.log("token: ",token);
-    if (!token) {
-        return res.status(403).json({
-            error: "token not there in cookies"
-        }); // Forbidden
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ success: false, error: "Invalid or expired token" });
     }
-    req.token=token;
+    req.user = decoded;
     next();
+  });
 };

@@ -8,6 +8,8 @@ const videoSchema = new mongoose.Schema({
   uploadTime: { type: Date, default: Date.now, required: true },
 
   m3u8Path: String,
+  s3RawKey: String,
+  folderPath: String,
   description: String,
 
   // link to user
@@ -20,6 +22,7 @@ const videoSchema = new mongoose.Schema({
   visibility: {
     type: String,
     enum: ["public", "private"],
+    default: "public",
   },
   likesCount: {
     type: Number,
@@ -34,13 +37,12 @@ const videoSchema = new mongoose.Schema({
   },
   thumbnailPath: {
     type: String,
-    required: true,
     default: null,
   },
   status: {
     type: String,
-    enum: ["processing", "ready", "failed"],
-    default: "processing",
+    enum: ["uploading", "processing", "ready", "failed"],
+    default: "uploading",
     required: true,
   },
 });

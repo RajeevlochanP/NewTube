@@ -1,27 +1,83 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import fs from "fs";
+import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import fs from "node:fs";
+import { pipeline } from "node:stream/promises";
 
-// Initialize the S3 Client
-const s3 = new S3Client({
-  region: process.env.AWS_REGION, // e.g., 'ap-south-2'
-  credentials: {
+// Initialize the S3 Client cleanly
+const s3Config = {
+  region: process.env.AWS_REGION || "eu-north-1",
+};
+
+if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
+  s3Config.credentials = {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  },
-});
+  };
+}
 
+export const s3 = new S3Client(s3Config);
+
+/**
+ * Generates an S3 Presigned URL for uploading a file directly from the frontend.
+ */
+export const generatePresignedUrl = async (s3Key, contentType) => {
+  const bucketName = process.env.AWS_S3_BUCKET_NAME || "newtube-bucket";
+  const command = new PutObjectCommand({
+    Bucket: bucketName,
+    Key: s3Key,
+    ContentType: contentType,
+  });
+
+  const presignedUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+  const publicUrl = `https://${bucketName}.s3.${s3Config.region}.amazonaws.com/${s3Key}`;
+  
+  return { presignedUrl, publicUrl, s3Key };
+};
+
+/**
+ * Uploads a local file to S3 (used by the background video processor worker for HLS files and thumbnails).
+ */
 export const uploadToS3 = async (localFilePath, s3Key, mimeType) => {
+  const bucketName = process.env.AWS_S3_BUCKET_NAME || "newtube-bucket";
   const fileStream = fs.createReadStream(localFilePath);
   
   const command = new PutObjectCommand({
-    Bucket: process.env.AWS_S3_BUCKET_NAME,
-    Key: s3Key, // e.g., 'videos/12345/master.m3u8'
+    Bucket: bucketName,
+    Key: s3Key,
     Body: fileStream,
     ContentType: mimeType,
   });
 
   await s3.send(command);
   
-  // Return the public URL
-  return `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${s3Key}`;
+  return `https://${bucketName}.s3.${s3Config.region}.amazonaws.com/${s3Key}`;
+};
+
+/**
+ * Downloads a file from S3 to a local file path (used by the worker to download raw .mp4 for transcoding).
+ */
+export const downloadFromS3 = async (s3Key, localFilePath) => {
+  const bucketName = process.env.AWS_S3_BUCKET_NAME || "newtube-bucket";
+  const command = new GetObjectCommand({
+    Bucket: bucketName,
+    Key: s3Key,
+  });
+
+  const response = await s3.send(command);
+  const writeStream = fs.createWriteStream(localFilePath);
+  await pipeline(response.Body, writeStream);
+  return localFilePath;
+};
+
+/**
+ * Deletes an object from S3 (used by the worker to clean up the raw .mp4 after HLS transcoding).
+ */
+export const deleteFromS3 = async (s3Key) => {
+  const bucketName = process.env.AWS_S3_BUCKET_NAME || "newtube-bucket";
+  const command = new DeleteObjectCommand({
+    Bucket: bucketName,
+    Key: s3Key,
+  });
+
+  await s3.send(command);
 };
