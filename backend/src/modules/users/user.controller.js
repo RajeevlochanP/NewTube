@@ -9,7 +9,7 @@ export const getMe = async (req, res) => {
     }
     return res.status(200).json({
       success: true,
-      userDetails: response.userDetails,
+      user: response.userDetails,
     });
   } catch (err) {
     console.error("Get Me Error:", err);

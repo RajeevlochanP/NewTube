@@ -6,10 +6,9 @@ const router = express.Router();
 
 // Public routes
 router.get("/feed", getFeed);
-router.get("/:videoId", getVideoDetails);
-
-// Protected routes
-router.post("/upload/initiate", protect, initiateUpload);
 router.get("/user", protect, getVideosByUser);
+router.post("/upload/initiate", protect, initiateUpload);
+
+router.get("/:videoId", getVideoDetails);
 
 export default router;

@@ -7,7 +7,6 @@ import { redisConnection } from "../config/redis.config.js";
 import { downloadFromS3, uploadToS3, deleteFromS3 } from "../utils/s3.util.js";
 import { updateVideoRecord } from "../modules/videos/video.dao.js";
 
-// Helper: Generate thumbnail using fluent-ffmpeg
 const generateThumbnail = (inputPath, folderPath) => {
   return new Promise((resolve) => {
     ffmpeg(inputPath)
@@ -33,20 +32,38 @@ const generateThumbnail = (inputPath, folderPath) => {
   });
 };
 
-// Helper: Transcode to HLS using fluent-ffmpeg
 const transcodeToHLS = (inputPath, outputFolder) => {
   const masterPath = path.join(outputFolder, "master.m3u8");
+
   return new Promise((resolve, reject) => {
     ffmpeg(inputPath)
       .outputOptions([
-        "-profile:v baseline",
-        "-level 3.0",
-        "-start_number 0",
+        // 1. Map the original video and audio to 3 separate streams
+        "-map 0:v:0", "-map 0:a:0", 
+        "-map 0:v:0", "-map 0:a:0", 
+        "-map 0:v:0", "-map 0:a:0", 
+
+        // 2. Configure Stream 0 (1080p Height, Auto Width, Square Pixels)
+        "-filter:v:0 scale=-2:1080,setsar=1", "-c:v:0 libx264", "-b:v:0 3000k",
+
+        // 3. Configure Stream 1 (720p Height, Auto Width, Square Pixels)
+        "-filter:v:1 scale=-2:720,setsar=1", "-c:v:1 libx264", "-b:v:1 1500k",
+
+        // 4. Configure Stream 2 (360p Height, Auto Width, Square Pixels)
+        "-filter:v:2 scale=-2:360,setsar=1", "-c:v:2 libx264", "-b:v:2 500k",
+
+        // 5. Audio settings (applied to all)
+        "-c:a aac", "-b:a 128k",
+
+        // 6. HLS Configuration
+        "-f hls",
         "-hls_time 6",
         "-hls_list_size 0",
-        "-f hls",
+        "-hls_segment_filename", path.join(outputFolder, "stream_%v_data%03d.ts"),
+        "-master_pl_name", "master.m3u8",
+        "-var_stream_map", "v:0,a:0 v:1,a:1 v:2,a:2"
       ])
-      .output(masterPath)
+      .output(path.join(outputFolder, "stream_%v.m3u8"))
       .on("end", () => resolve(masterPath))
       .on("error", (err) => reject(err))
       .run();

@@ -3,6 +3,7 @@ import { signupService, loginService } from "./auth.service.js";
 export const signup = async (req, res) => {
   try {
     const { name, email, password, confirmPassword } = req.body;
+    // console.log(req.body);
     if (!name || !email || !password || !confirmPassword) {
       return res.status(400).json({ success: false, error: "All fields (name, email, password, confirmPassword) are required" });
     }
@@ -15,6 +16,8 @@ export const signup = async (req, res) => {
     }
     res.cookie("token", response.token, {
       httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
       maxAge: 24 * 60 * 60 * 1000,
       path: "/",
     });
@@ -41,6 +44,8 @@ export const login = async (req, res) => {
     }
     res.cookie("token", response.token, {
       httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
       maxAge: 24 * 60 * 60 * 1000,
       path: "/",
     });

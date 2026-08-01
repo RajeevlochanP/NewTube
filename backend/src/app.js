@@ -6,6 +6,12 @@ import authRoutes from "./modules/auth/auth.routes.js";
 import userRoutes from "./modules/users/user.routes.js";
 import videoRoutes from "./modules/videos/video.routes.js";
 import interactionRoutes from "./modules/interactions/interaction.routes.js";
+import cors from 'cors';
+
+const corsOptions = {
+  origin: 'http://localhost:5173',
+  credentials: true,
+};
 
 // dotenv.config();
 const app = express();
@@ -13,6 +19,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(cors(corsOptions));
 
 connectDB();
 
